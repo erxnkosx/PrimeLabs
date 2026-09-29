@@ -72,35 +72,6 @@ export function RequestHero() {
             </li>
           </ul>
           {/* 3D locatiescène */}
-          <div
-            className="view view--sm rv rv--s"
-            data-d="340"
-            style={{ marginTop: "30px" }}
-            role="img"
-            aria-label="3D-weergave van een locatie in een omgevingsraster, met een oplichtende markering op het te inspecteren gebouw."
-          >
-            <canvas id="beaconCanvas" aria-hidden="true" />
-            <span className="corner tl" />
-            <span className="corner tr" />
-            <span className="corner bl" />
-            <span className="corner br" />
-            <div className="view__hud" aria-hidden="true">
-              <div className="hud-row hud-row--t">
-                <span className="hud-tag">
-                  <i className="hud-dot" />
-                  <span>Locatie / uw project</span>
-                </span>
-                <span>België</span>
-              </div>
-              <div
-                className="hud-row"
-                style={{ bottom: "16px", fontSize: ".53rem", color: "rgba(198,172,236,.5)" }}
-              >
-                <span>Sleep om te draaien</span>
-                <span className="hud-sm">Bereikbaarheid wordt vooraf gecheckt</span>
-              </div>
-            </div>
-          </div>
           <div className="tips rv" data-d="400">
             <h4>Vermeld bij voorkeur:</h4>
             <ul>
