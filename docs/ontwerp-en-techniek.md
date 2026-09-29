@@ -388,7 +388,7 @@ donkerste bladpixels ≥ 5:1); wit haalde daar 1,5:1.
   scrollen; de kaarten kantelen op muispositie.
 - **Diensten** — drie hoofddiensten in een **zig-zag**: elke dienst is een eigen rij
   (`article.svc-row`, ids `#d1`–`#d3`) met links of rechts een eigen canvas
-  (`#canvas-d1`–`#canvas-d3`, `BUILDERS = [SDak, SWerf, SFoto]`). 01 en 03 hebben de scène
+  (`#canvas-d1`–`#canvas-d3`, `BUILDERS = [SDak, SWerf, SWoning]`). 01 en 03 hebben de scène
   links en de tekst rechts, 02 (`.svc-row--reverse`) is omgedraaid; onder 900px staat altijd
   eerst de scène en direct daaronder de tekst. De viewport kantelt naar zijn tekst toe
   (`--vry-base`). Elke viewport houdt de HUD: hoeken, `hud-tag`, een statusbadge die de scène
@@ -405,11 +405,14 @@ donkerste bladpixels ≥ 5:1); wit haalde daar 1,5:1.
   pulseren, het gescande punt licht op. 02 werf in uitvoering (ruwbouw, graafmachine die elke ronde
   hetzelfde brok in de container lost) met rond het bouwvolume een vaste, gloeiende
   spline-route langs acht GPS-standpunten; achter de drone licht het spoor op, en op elk
-  standpunt volgt een opnameflits richting de ruwbouw. 03 fotogrammetrie: de drone vliegt
-  een raster (serpentine), de puntenwolk groeit in vluchtvolgorde mee en kleurt op hoogte;
-  daarna schuift een scanlijn over het terrein, met achter de lijn het polygoonmesh (en een
-  nagloeiende band verse driehoeken) en ervoor nog de punten; tot slot de volumemeting van
-  stapel A. Dat knippen gebeurt met clipping planes (`localClippingEnabled`), die de scène
+  standpunt volgt een opnameflits richting de ruwbouw. 03 fotogrammetrie: de woning met platte daken uit case 03, nagebouwd in de huisstijl naar
+  `woning-case/boven.webp` en `model-poster.webp` (hoofdvolume met collectoren, lichtkoepel en
+  doorvoeren, lager volume met glazen tuingevel, terras, gazon, glazen overkapping, houten schuur
+  met zadeldak en twee vuurkorven; geen texturen of adres, dus bruikbaar vóór de publicatie van de
+  case). De drone vliegt een raster (serpentine), de puntenwolk groeit in vluchtvolgorde mee (daken
+  én gevels) en kleurt op hoogte; daarna schuift een scanlijn over het perceel, met achter de lijn
+  het polygoonmesh (en een nagloeiende band verse driehoeken) en ervoor nog de punten; tot slot de
+  opmeting van het platte dak van het hoofdvolume. Dat knippen gebeurt met clipping planes (`localClippingEnabled`), die de scène
   elk frame naar de wereldruimte omzet.
 - **Werkwijze** — één scène met vijf fasen: locatiemarkering → afgesproken zones →
   dronevlucht met scanvlak → genummerde aandachtspunten → opgeleverd dossier.

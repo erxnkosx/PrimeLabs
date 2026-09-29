@@ -186,7 +186,7 @@ export function ServiceRows() {
             <div
               className="view svc-row__view"
               role="img"
-              aria-label="3D-weergave: een drone vliegt een raster af boven twee voorraadstapels; de puntenwolk groeit mee en wordt door een scanlijn omgezet in een 3D-mesh met volumemeting"
+              aria-label="3D-weergave: een drone vliegt een raster af boven een woning met platte daken; de puntenwolk groeit mee en wordt door een scanlijn omgezet in een 3D-mesh, waarna het platte dak wordt opgemeten"
             >
               <canvas id="canvas-d3" aria-hidden="true" />
               <span className="corner tl" />
@@ -197,7 +197,7 @@ export function ServiceRows() {
                 <div className="hud-row hud-row--t">
                   <span className="hud-tag">
                     <i className="hud-dot" />
-                    <span className="hud-tag__t">Stapel A / 3D-mesh</span>
+                    <span className="hud-tag__t">Woning / 3D-mesh</span>
                   </span>
                   <span className="hud-badge" data-status="">
                     Fotogrammetrie
