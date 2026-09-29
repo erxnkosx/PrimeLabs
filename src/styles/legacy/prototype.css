@@ -1,0 +1,55 @@
+/* Stijlen van de testpagina prototype (waren inline in prototype.html). Enkel op die pagina geladen. */
+/* alleen voor deze prototypepagina */
+body{background:#0a0520;color:#fff}
+.lab{width:min(1500px,calc(100% - 48px));margin-inline:auto;padding:38px 0 90px}
+.lab__top{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:10px}
+.lab__top h1{font-size:clamp(1.9rem,3.4vw,2.9rem);color:#fff}
+.lab__top p{color:rgba(220,207,244,.72);font-size:.95rem;max-width:62ch;margin-top:14px}
+.lab__warn{
+  display:inline-flex;align-items:center;gap:10px;margin:22px 0 40px;padding:11px 16px;border-radius:10px;
+  border:1px solid rgba(150,47,188,.4);background:rgba(58,7,138,.22);
+  font-family:"JetBrains Mono",monospace;font-size:.62rem;letter-spacing:.14em;text-transform:uppercase;
+  color:rgba(214,165,233,.9);
+}
+.labgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px}
+.lab__card{
+  border:1px solid rgba(150,47,188,.28);border-radius:20px;overflow:hidden;
+  background:linear-gradient(180deg,rgba(28,12,62,.7),rgba(10,5,32,.7));
+}
+.lab__card--wide{grid-column:1 / -1}
+.lab__view{position:relative;aspect-ratio:16/10;background:
+   radial-gradient(120% 90% at 74% 8%,#241058 0%,transparent 60%),linear-gradient(165deg,#160a3a,#0a0520 72%)}
+.lab__view canvas{position:absolute;inset:0;width:100%;height:100%}
+.lab__view::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:repeating-linear-gradient(0deg,rgba(255,255,255,.028) 0 1px,transparent 1px 3px),
+             radial-gradient(90% 70% at 50% 50%,transparent 55%,rgba(5,2,16,.5) 100%);opacity:.7;
+}
+.lab__tag{
+  position:absolute;left:16px;top:14px;z-index:2;display:inline-flex;align-items:center;gap:9px;
+  font-family:"JetBrains Mono",monospace;font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;
+  color:rgba(222,203,247,.85);
+}
+.lab__hint{
+  position:absolute;right:16px;bottom:14px;z-index:2;font-family:"JetBrains Mono",monospace;
+  font-size:.54rem;letter-spacing:.16em;text-transform:uppercase;color:rgba(198,172,236,.45);
+}
+.lab__body{padding:24px 26px 28px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);gap:26px}
+.lab__body h2{font-size:1.32rem;color:#fff;margin-bottom:8px}
+.lab__body .mono{font-size:.58rem;letter-spacing:.2em;text-transform:uppercase;color:#b769d3;display:block;margin-bottom:10px}
+.lab__body p{font-size:.88rem;color:rgba(220,207,244,.75)}
+.lab__list{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px 20px}
+.lab__list li{display:flex;gap:9px;font-size:.8rem;color:rgba(220,207,244,.82);align-items:flex-start;line-height:1.5}
+.lab__list li::before{content:"+";font-family:"JetBrains Mono",monospace;color:#b769d3;flex:none}
+.lab__meta{
+  margin-top:16px;padding-top:14px;border-top:1px solid rgba(150,47,188,.2);
+  font-family:"JetBrains Mono",monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;
+  color:rgba(198,172,236,.6);display:flex;flex-wrap:wrap;gap:6px 18px;
+}
+.lab__foot{margin-top:52px;padding-top:22px;border-top:1px solid rgba(150,47,188,.2);color:rgba(198,172,236,.6);font-size:.85rem}
+.lab__foot strong{color:#fff;font-weight:600}
+@media (max-width:1080px){
+  .labgrid{grid-template-columns:1fr}
+  .lab__body{grid-template-columns:1fr;gap:18px}
+  .lab__list{grid-template-columns:1fr}
+}

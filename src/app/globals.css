@@ -1,0 +1,67 @@
+/* ==========================================================================
+   Tailwind CSS v4
+   --------------------------------------------------------------------------
+   Bewust ZONDER preflight (Tailwinds CSS-reset): het bestaande designsysteem in
+   src/styles/legacy/style.css heeft een eigen, gekalibreerde basis en die mag niet
+   veranderen. Theme en utilities staan in cascade-layers; de legacy-CSS staat
+   daarbuiten en wint dus altijd bij een conflict. Nieuwe onderdelen bouw je gewoon
+   met Tailwind-klassen en de huisstijltokens hieronder
+   (bv. bg-brand, text-ink, border-line, font-display, rounded-card).
+   ========================================================================== */
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+/* De legacy-bestanden en de oorspronkelijke scripts hoeven niet gescand te worden:
+   die klassen worden door de legacy-CSS gestyled, niet door Tailwind. */
+@source not "../styles/legacy";
+@source not "../scripts";
+
+@theme inline {
+  /* merkkleuren, rechtstreeks gekoppeld aan de tokens in style.css */
+  --color-brand: var(--brand);
+  --color-brand-2: var(--brand-2);
+  --color-brand-3: var(--brand-3);
+  --color-brand-4: var(--brand-4);
+  --color-brand-5: var(--brand-5);
+  --color-logo-magenta: var(--lg-mag);
+  --color-logo-violet: var(--lg-vio);
+  --color-logo-indigo: var(--lg-ind);
+  --color-indigo: var(--ind);
+  --color-indigo-2: var(--ind-2);
+  --color-indigo-3: var(--ind-3);
+
+  --color-surface: var(--bg);
+  --color-surface-soft: var(--bg-soft);
+  --color-surface-soft-2: var(--bg-soft-2);
+  --color-line: var(--line);
+  --color-line-2: var(--line-2);
+  --color-dark: var(--dark);
+  --color-dark-2: var(--dark-2);
+  --color-dark-3: var(--dark-3);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-muted: var(--muted);
+
+  /* typografie: dezelfde families als het designsysteem */
+  --font-sans: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-display: "Inter Tight", "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-wordmark: "Poppins", "Inter Tight", sans-serif;
+
+  --radius-card: var(--r);
+  --radius-card-sm: var(--r-sm);
+  --radius-card-lg: var(--r-lg);
+
+  --ease-brand: var(--ease);
+  --ease-brand-out: var(--out);
+  --ease-spring: var(--spring);
+
+  --shadow-card: var(--shadow-1);
+  --shadow-card-lg: var(--shadow-2);
+}
+
+/* bg-brand-gradient = de huisstijlgradient uit het logo */
+@utility bg-brand-gradient {
+  background-image: var(--lg-grad);
+}

@@ -1,0 +1,451 @@
+/* ==========================================================================
+   Home-hero: fotoscène
+   Laadt NA style.css en geldt enkel voor .hero--scene (home, /).
+   De tekstkolom links blijft op de bestaande hero-stijlen draaien; dit
+   bestand regelt de opname rechts, de scanlaag met drone en lichtkegel, de
+   aandachtspunten, de resultatenbalk en de onderregel.
+   ========================================================================== */
+
+/* De afstand van de vensterrand tot de rechterlijn van --wrap, als vaste
+   lengte. Binnen de scène verwijst 100% naar de scène en niet naar het
+   venster, dus rekent .hs-scene die marge uit met de containereenheden van de
+   hero. Geregistreerd als <length>: zo wordt de waarde op .hs-scene zelf
+   uitgerekend en niet pas in de balk, waar cqw naar de scène zou verwijzen. */
+@property --hs-gutter{syntax:'<length>';inherits:true;initial-value:0px}
+
+.hero--scene{
+  --hs-bg:255 255 255;                     /* = --bg, als RGB-triplet voor de overgangen */
+  --hs-glass:18 8 44;                      /* donkere glaskleur (labels, balk) */
+  /* de foto begint net vóór het einde van de tekstkolom (32 % van --wrap)
+     en loopt door tot de rechter vensterrand */
+  --hs-left:calc((100% - var(--wrap)) / 2 + max(320px, calc(var(--wrap) * .32)) - 40px);
+  --hs-thumb:clamp(112px, 8.8vw, 140px);   /* breedte van de videominiatuur (16:10) */
+  --hs-bar-gap:clamp(44px, 4.4vw, 84px);   /* witruimte tussen tekstkolom en resultatenbalk */
+  container-type:inline-size;
+  display:flex;flex-direction:column;justify-content:center;
+  min-height:clamp(680px, 100svh, 940px);
+  padding-bottom:clamp(96px, 9vw, 120px);
+  overflow:hidden;
+}
+.hero--scene .hero__in{position:relative;z-index:3;width:var(--wrap)}
+
+/* ---- kop ---------------------------------------------------------------- */
+/* De kop vult ~93 % van de tekstkolom. "Professionele" is de breedste regel:
+   5,64 × de lettergrootte. De kolom is 32 % van --wrap, ofwel ≈ 30vw, tot
+   --wrap op 1400px vastloopt (kolom 448px); vanaf daar blijft de kop 74px.
+   Daarnaast schaalt de kop met de schermhoogte (16svh - 70px: 74px op 900px
+   hoog, 53px op 768px), zodat de hero met de balk op laptops binnen één
+   scherm blijft. Nooit kleiner dan 40px. */
+.hero--scene h1{
+  font-size:clamp(2.5rem, min(calc(4.96vw - 1px), calc(16svh - 70px)), 4.625rem);
+  line-height:.9;
+  margin-bottom:30px;
+}
+/* .line knipt elke regel af voor de onthulling. Bij deze strakke interlinie
+   zouden de onderstokken van p en g wegvallen: extra ruimte onderaan, die de
+   negatieve marge meteen weer terugneemt. */
+.hero--scene h1 .line{padding-bottom:.16em;margin-bottom:-.16em}
+
+/* ---- scène ------------------------------------------------------------ */
+.hs-scene{
+  position:absolute;top:0;right:0;bottom:0;left:var(--hs-left);
+  margin:0;z-index:1;overflow:hidden;
+  container-type:size;
+  --hs-gutter:calc((100cqw - min(1400px, calc(100cqw - clamp(32px, 6vw, 96px)))) / 2);
+}
+/* De stage heeft exact de verhouding van de foto (2000×1333) en bedekt de
+   scène zoals object-fit:cover. Alles erin (SVG én HTML-pins) werkt dus in
+   beeldcoördinaten, op elke schermbreedte. --hs-fx/--hs-fy werken als
+   object-position. */
+.hs-stage{
+  position:absolute;
+  left:var(--hs-fx,50%);top:var(--hs-fy,50%);
+  width:150%;                                         /* fallback zonder cq-eenheden */
+  width:max(100cqw, calc(100cqh * 1.5004));
+  aspect-ratio:2000/1333;
+  transform:translate(calc(var(--hs-fx,50%) * -1), calc(var(--hs-fy,50%) * -1));
+}
+.hs-img,.hs-svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.hs-img{max-width:none;object-fit:cover}
+.hs-svg{overflow:visible;pointer-events:none}
+/* Bij het laden zoomen de foto, de scanlagen en de aandachtspunten samen in,
+   met hetzelfde vak en hetzelfde middelpunt: zo blijft alles op het gebouw. */
+.hs-img,.hs-svg,.hs-call{animation:heroZoom 2.6s var(--out) both}
+@keyframes heroZoom{from{transform:scale(1.055)}to{transform:scale(1)}}
+/* De intro start pas wanneer het doek wegvalt (body.ready, zie main.js), en
+   buiten beeld staat de hele hero stil (.is-uit): geen werk voor niemand. */
+body:not(.ready) .hero--scene :is(.hs-img,.hs-svg,.hs-call,.hs-call > *){animation-play-state:paused}
+.hero--scene.is-uit *,.hero--scene.is-uit *::after{animation-play-state:paused!important}
+/* Tot de foto binnen is (.is-klaar, zie main.js) staat de scène onzichtbaar
+   stil: op een trage verbinding speelt de intro nooit over een halve foto. De
+   overgang staat alleen onder body.ready: is de foto er vóór het doek valt,
+   dan staat de scène er meteen, zonder fade. */
+body.ready .hs-stage{transition:opacity .6s var(--ease)}
+.hs-scene:not(.is-klaar) .hs-stage{opacity:0}
+.hs-scene:not(.is-klaar) :is(.hs-img,.hs-svg,.hs-call,.hs-call > *){animation-play-state:paused}
+
+/* De foto vloeit weg naar links (onder de tekst), boven (achter de nav) en
+   onder (naar de band). Met een masker in plaats van een witte verloopkleur,
+   zodat de lichtval van .hero__aura er gewoon doorheen blijft lopen. */
+.hs-photo{
+  position:absolute;inset:0;z-index:0;
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 0%, rgba(0,0,0,.08) 7%, rgba(0,0,0,.42) 18%, rgba(0,0,0,.85) 30%, #000 40%),
+    linear-gradient(180deg, transparent 0%, #000 17%),
+    linear-gradient(0deg, transparent 0%, #000 14%);
+  -webkit-mask-composite:source-in;
+          mask-image:
+    linear-gradient(90deg, transparent 0%, rgba(0,0,0,.08) 7%, rgba(0,0,0,.42) 18%, rgba(0,0,0,.85) 30%, #000 40%),
+    linear-gradient(180deg, transparent 0%, #000 17%),
+    linear-gradient(0deg, transparent 0%, #000 14%);
+          mask-composite:intersect;
+}
+/* lichte violette waas over de opname, in de tint van het logo */
+.hs-photo::after{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 70% 60% at 72% 34%, rgba(150,47,188,.12), transparent 70%);
+}
+
+/* ---- scanlaag: vier SVG-lagen boven de foto ----------------------------- */
+/* 1. tint (color): kegel, daken en gevel nemen de tint en verzadiging van het
+      merkviolet aan, maar houden de helderheid van de foto. Gewoon mengen
+      maakte van gras en grind mauve; screen zou alles alleen bleker maken.
+   2. diepte: een dunne donkerviolette laag over kegel en daken.
+   3. licht (screen): randen, raster, gloed, scanveeg en stralen lichten echt
+      op, vooral op de donkere panelen, de steen en het glas.
+   4. drone: bovenop, met de lens als klein witheet punt.
+   Aparte <svg>'s, omdat mix-blend-mode op een <g> niet overal betrouwbaar is.
+   .hs-photo heeft een masker en mengt dus als afgesloten groep: de lagen
+   mengen alleen met de foto, nooit met de witte pagina. */
+.hs-svg--tint{mix-blend-mode:color}
+.hs-svg--licht{mix-blend-mode:screen}
+
+/* daken: oplichtend raster, een neonrand die zacht ademt en een scanveeg */
+.roof-grid{opacity:.8}
+.roof-grid-gloed{opacity:.45}
+.roof-halo{animation:roofBreathe 8s var(--ease) infinite alternate}
+@keyframes roofBreathe{from{opacity:.75}to{opacity:.95}}
+.roof-sweep{animation:roofSweep 7.5s var(--ease) infinite}
+@keyframes roofSweep{0%{transform:translateX(479px)}100%{transform:translateX(1607px)}}
+/* de gescande gevel: zelfde rand, een rustiger raster en geen scanveeg */
+.gevel-halo{opacity:.8}
+.gevel-grid{opacity:.65}
+
+/* De kegel en zijn stralen staan vast op de dakranden. Alleen de drone zweeft,
+   en maar anderhalve beeldeenheid (≈ 1px): zo blijft de lens op het punt
+   waar de stralen samenkomen. */
+.rig{animation:rigHover 9s var(--ease) infinite alternate}
+@keyframes rigHover{from{transform:translate(0,0)}to{transform:translate(-1px,1.5px)}}
+.rig__drone{filter:drop-shadow(0 16px 24px rgba(12,6,32,.4))}
+
+/* de lichtkegel: licht bij de lens, dunne stralen die als een scanner om
+   beurten oplichten, heldere randen en een klein witheet punt op de lens */
+.fan-rays{opacity:.9}
+.fan-rays--gloed{opacity:.55}
+.fan-ray--achter{stroke-opacity:.5}
+.fan-rays:not(.fan-rays--gloed) line{animation:straal 3.4s var(--ease) infinite;animation-delay:calc(var(--i) * -.16s)}
+@keyframes straal{0%,100%{opacity:.4}50%{opacity:1}}
+.fan-randen{opacity:.92}
+.fan-rand--binnen{opacity:.4}
+.fan-lens{transform-origin:1338.8px 274px;animation:lensGloed 2.8s var(--ease) infinite alternate}
+@keyframes lensGloed{from{opacity:.85;transform:scale(.96)}to{opacity:1;transform:scale(1.02)}}
+
+/* ---- aandachtspunten -------------------------------------------------- */
+/* Elk punt is een .hs-call met drie maten in de foto: het punt op het gebouw
+   (--tx/--ty), de hoogte van de knik en van de kaart (--ky) en de plek waar de
+   kaart hangt (--ax). De kaart zweeft boven of naast het gebouw, nooit erop.
+   De lijn loopt horizontaal van de kaart naar de knik en daar recht omlaag
+   naar het punt, zoals in het ontwerp. */
+.hs-stage--ui{z-index:2;pointer-events:none}
+.hs-call{position:absolute;inset:0}
+.hs-call > *{position:absolute}
+
+/* het punt op het gebouw: een klein lichtpunt, geen grote pin. Een witte kern
+   met een paarse rand en gloed, en een dunne ring die er traag uit pulseert. */
+.hs-pin{
+  left:var(--tx);top:var(--ty);width:11px;height:11px;margin:-5.5px 0 0 -5.5px;border-radius:50%;
+  background:#fff;
+  box-shadow:0 0 0 2.5px rgba(146,62,226,.9),0 0 0 5.5px rgba(196,140,236,.22),0 0 16px 3px rgba(196,140,236,.7);
+  animation:hsPop .5s var(--out) both;animation-delay:calc(var(--in) - .55s);
+}
+.hs-pin::after{
+  content:"";position:absolute;inset:-5px;border-radius:50%;
+  border:1px solid rgba(232,208,255,.9);
+  animation:hsPing 2.8s var(--out) infinite;animation-delay:var(--delay,0s);
+}
+@keyframes hsPing{0%{transform:scale(.6);opacity:.9}100%{transform:scale(2.4);opacity:0}}
+/* de knik: nog kleiner, alleen een lichtpunt */
+.hs-knee{
+  left:var(--tx);top:var(--ky);width:7px;height:7px;margin:-3.5px 0 0 -3.5px;border-radius:50%;
+  background:#fff;box-shadow:0 0 0 2px rgba(146,62,226,.75),0 0 10px 1px rgba(196,140,236,.8);
+  animation:hsPop .45s var(--out) both;animation-delay:calc(var(--in) - .3s);
+}
+@keyframes hsPop{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:none}}
+
+/* de lijnen tekenen zich vanaf het punt naar de kaart */
+.hs-lead{background:rgba(255,255,255,.86);box-shadow:0 0 8px rgba(214,165,233,.6)}
+.hs-lead--v{
+  left:var(--tx);top:var(--ky);width:1px;margin-left:-.5px;height:calc(var(--ty) - var(--ky));
+  transform-origin:50% 100%;animation:hsLijnV .45s var(--out) both;animation-delay:calc(var(--in) - .5s);
+}
+.hs-lead--h{
+  top:var(--ky);height:1px;margin-top:-.5px;
+  animation:hsLijnH .45s var(--out) both;animation-delay:calc(var(--in) - .25s);
+}
+.hs-call--l .hs-lead--h{left:var(--ax);width:calc(var(--tx) - var(--ax));transform-origin:100% 50%}
+.hs-call--r .hs-lead--h{left:var(--tx);width:calc(var(--ax) - var(--tx) - var(--ax-schuif, 0px));transform-origin:0 50%}
+@keyframes hsLijnV{from{transform:scaleY(0)}}
+@keyframes hsLijnH{from{transform:scaleX(0)}}
+
+/* De kaart hangt verticaal gecentreerd op de knik: neutraal donker glas met
+   een fijne lila rand en een lichte bovenkant, een doorschijnende icoontegel.
+   Het glas ontkleurt en dimt wat erachter ligt (saturate 60 %, brightness .8),
+   zodat gras en bomen de kaart niet bruin of groen kleuren. */
+.hs-tag{
+  top:var(--ky);translate:0 -50%;
+  display:flex;align-items:center;gap:12px;padding:9px 18px 9px 9px;min-height:56px;
+  color:#fff;border-radius:14px;
+  background:linear-gradient(150deg,rgba(34,26,60,.86),rgba(18,13,38,.82));
+  backdrop-filter:blur(16px) saturate(60%) brightness(.8);-webkit-backdrop-filter:blur(16px) saturate(60%) brightness(.8);
+  box-shadow:0 22px 44px -24px rgba(8,3,26,.9),inset 0 0 0 1px rgba(196,140,236,.24),inset 0 1px 0 rgba(255,255,255,.07);
+  animation:cardIn .95s var(--out) both;animation-delay:var(--in,.7s);
+}
+@keyframes cardIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+/* Een kaart wordt nooit breder dan de ruimte tot de rand van de scène
+   (rechts) of tot de tekstkolom (links); de ondertitel breekt dan over twee
+   regels in plaats van dat de kaart wordt afgesneden. 100% is hier de stage,
+   100cqw de zichtbare scène; de stage staat gecentreerd in de scène. */
+.hs-call--r .hs-tag{
+  left:calc(var(--ax) - var(--ax-schuif, 0px));
+  max-width:calc((100cqw + 100%) / 2 - var(--ax) + var(--ax-schuif, 0px) - 24px);
+}
+.hs-call--l .hs-tag{
+  right:calc(100% - var(--ax));
+  max-width:calc(var(--ax) - (100% - 100cqw) / 2 - 56px);
+}
+.hs-tag__ico{
+  flex:none;width:38px;height:38px;border-radius:11px;display:grid;place-items:center;color:#e3c4ff;
+  background:linear-gradient(150deg,rgba(150,70,230,.36),rgba(90,30,170,.16));
+  box-shadow:inset 0 0 0 1px rgba(210,160,255,.32),0 6px 16px -8px rgba(107,10,147,.9);
+}
+.hs-tag > span:last-child{min-width:0}
+.hs-tag b{display:block;white-space:nowrap;font-family:"Inter Tight",sans-serif;font-size:.9rem;font-weight:600;letter-spacing:-.02em;line-height:1.2}
+.hs-tag small{display:block;margin-top:3px;font-size:.72rem;line-height:1.25;color:rgba(223,208,246,.74)}
+
+/* ---- resultatenbalk --------------------------------------------------- */
+/* Links begint de balk een witruimte na de tekstkolom (40px is de rand van de
+   kolom, zie --hs-left); rechts eindigt hij exact op de rechterlijn van
+   --wrap, net als de navigatie. */
+.hs-bar{
+  position:absolute;z-index:3;
+  left:calc(40px + var(--hs-bar-gap));right:var(--hs-gutter);
+  bottom:clamp(92px, 11cqh, 118px);
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr)) minmax(0,1.9fr);align-items:center;
+  padding:6px;border-radius:18px;color:#fff;
+  background:linear-gradient(118deg,rgba(36,28,70,.86),rgba(20,14,48,.84));
+  backdrop-filter:blur(16px) saturate(60%) brightness(.8);-webkit-backdrop-filter:blur(16px) saturate(60%) brightness(.8);
+  box-shadow:0 30px 64px -40px rgba(20,7,45,.75),inset 0 0 0 1px rgba(196,140,236,.18),inset 0 1px 0 rgba(255,255,255,.06);
+}
+.hs-stat{padding:10px 22px;border-right:1px solid rgba(183,105,211,.16)}
+.hs-stat b{
+  display:flex;align-items:center;gap:8px;font-family:"Inter Tight",sans-serif;
+  font-size:clamp(1.4rem,1.9vw,1.85rem);font-weight:500;letter-spacing:-.03em;line-height:1;
+}
+.hs-stat b svg{color:var(--brand-4);width:18px;height:18px}
+.hs-stat span{display:block;margin-top:7px;font-size:.76rem;color:rgba(223,208,246,.86)}
+
+.hs-video{
+  display:flex;align-items:center;gap:16px;padding:6px 12px 6px 20px;border-radius:13px;
+  color:#fff;transition:background .35s var(--ease);
+}
+.hs-video:hover{background:rgba(150,47,188,.14)}
+.hs-video__thumb{
+  position:relative;flex:none;width:var(--hs-thumb);aspect-ratio:16/10;overflow:hidden;
+  border-radius:9px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);
+}
+.hs-video__thumb img{width:100%;height:100%;max-width:none;object-fit:cover;transition:transform .6s var(--out)}
+.hs-play{
+  position:absolute;left:50%;top:50%;width:32px;height:32px;margin:-16px 0 0 -16px;
+  display:grid;place-items:center;border-radius:50%;background:#fff;color:var(--brand);
+  box-shadow:0 6px 16px rgba(0,0,0,.32);
+}
+.hs-play svg{width:12px;height:12px}
+.hs-video__t{font-size:.82rem;line-height:1.38;font-weight:500}
+.hs-video__t small{display:flex;align-items:center;gap:6px;margin-top:3px;font-size:.76rem;font-weight:400;color:rgba(223,208,246,.72)}
+.hs-video:hover .hs-video__thumb img{transform:scale(1.06)}
+.hs-video:hover small svg{transform:translateX(3px)}
+.hs-video small svg{transition:transform .4s var(--out)}
+.hs-video:focus-visible{outline:2px solid var(--brand-4);outline-offset:3px}
+
+/* ---- onderregel ------------------------------------------------------- */
+.hs-rule{
+  position:absolute;z-index:4;left:0;right:0;bottom:clamp(22px,2.4vw,32px);
+  width:var(--wrap);margin-inline:auto;
+  display:flex;justify-content:space-between;align-items:flex-end;gap:20px;
+  pointer-events:none;font-size:.62rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;
+}
+.hs-rule__l,.hs-rule__r{display:flex;align-items:center;gap:18px}
+/* Rechts staat de regel op het uitvloeiende deel van de foto, waar nog
+   bladeren doorschemeren: --ink, zodat hij ook op de donkerste pixels 5:1
+   haalt (wit haalde daar 1,5:1, --ink-2 op 1366 × 720 soms maar 3,7:1). */
+.hs-rule__l{color:var(--muted)}
+.hs-rule__r{color:var(--ink)}
+.hs-rule__l::before,.hs-rule__r::after{content:"";flex:none;width:48px;height:1.5px;background:var(--lg-grad)}
+
+/* ---- kalibratiemodus (/#kalibreer) --------------------------- */
+.hs-calib .hs-scene{cursor:crosshair}
+.hs-calib__tip{
+  position:fixed;z-index:9999;padding:6px 10px;border-radius:8px;background:var(--dark);color:#fff;
+  font:500 12px/1.3 "JetBrains Mono",monospace;pointer-events:none;transform:translate(12px,12px);
+}
+
+/* ---- kenmerken en resultatenbalk op één lijn (naast elkaar, > 1180px) ---- */
+/* Beide delen één band: dezelfde onderrand (--hs-band-b vanaf de onderkant
+   van de hero) en dezelfde hoogte (--hs-band-h), en allebei hun inhoud
+   verticaal gecentreerd. De tekstkolom staat daarvoor onderaan verankerd:
+   de kenmerken zijn het laatste element, dus hun onderrand valt samen met de
+   onderpadding van de hero. De balk staat in de scène, die de hele hoogte van
+   de hero beslaat, dus zijn 'bottom' telt ook vanaf de onderkant van de hero. */
+@media (width > 1180px){
+  .hero--scene{
+    --hs-band-b:clamp(84px, 10svh, 104px);
+    /* = de natuurlijke hoogte van .hs-bar: videominiatuur (16:10) + 2 × 6px
+       padding van .hs-video + 2 × 6px padding van de balk */
+    --hs-band-h:calc(var(--hs-thumb) / 1.6 + 24px);
+    justify-content:flex-end;
+    padding-top:calc(var(--nav-h) + clamp(24px, 2.2vw, 36px));
+    padding-bottom:var(--hs-band-b);
+  }
+  .hs-bar{bottom:var(--hs-band-b);min-height:var(--hs-band-h)}
+  .hero--scene .hero__sub{max-width:39ch}
+  .hero--scene .hero__facts{
+    min-height:var(--hs-band-h);margin-top:0;padding-top:0;border-top:0;
+    align-content:center;justify-content:space-between;column-gap:10px;
+  }
+  /* vaste regelval zoals in het ontwerp: elk kenmerk precies zo breed als zijn
+     langste regel (samen 325px). Met space-between en minstens 10px ertussen
+     passen ze ook in de smalste kolom (350px bij 1181px) op één rij. */
+  .hero--scene .fact{max-width:none}
+
+  /* De knoppenrij blijft op één regel, ook in de smalste kolom (355px bij
+     1181px): de rij heeft 385px nodig, dus onder 392px krijgt de knop wat
+     minder binnenruimte en valt het pijltje achter de tekstlink weg. Gemeten
+     op de kolom zelf, dus ook juist met een scrollbalk. */
+  .hero--scene .hero__copy{container-type:inline-size}
+  @container (width < 392px){
+    .hero--scene .hero__cta{flex-wrap:nowrap;gap:14px}
+    .hero--scene .hero__cta .btn{padding-inline:18px}
+    .hero--scene .hero__cta .tlink svg{display:none}
+  }
+}
+/* Lage laptopschermen (1366 × 657 met taakbalk): de onderregel zou door de
+   vouw gesneden worden. Hij is decoratief, dus valt hij daar weg. */
+/* Een smal maar hoog venster (1280 × 1024, een halve ultrawide) maakt de scène
+   staand: de foto wordt links en rechts afgesneden, de rechterkaarten worden
+   smaller dan hun titel en de drone valt rechts af. De hero wordt daarom nooit
+   hoger dan zijn breedte toelaat; boven 1300px tonen de kaarten hun ondertitel
+   en hebben ze iets meer ruimte nodig. Op gewone schermen verandert er niets. */
+@media (width > 1180px){
+  .hero--scene{min-height:clamp(680px, min(100svh, 68vw), 940px)}
+}
+@media (width > 1300px){
+  .hero--scene{min-height:clamp(680px, min(100svh, 63.5vw), 940px)}
+}
+@media (width > 1180px) and (max-height:700px){
+  .hs-rule{display:none}
+}
+/* Tussen 1300 en 1600px raken de rechterkaarten hun maximale breedte: ze
+   schuiven 10px naar het gebouw, zodat er minstens 24px tot de schermrand
+   blijft zonder dat de ondertitels vaker afbreken. Tot 1640px, omdat de
+   media query de scrollbalk meetelt: 1600px met scrollbalk is 1585px breed. */
+@media (1300px < width < 1640px){
+  .hs-stage--ui{--ax-schuif:10px}
+}
+
+/* Net boven het stapelpunt is de scène het smalst: rechts van het gebouw is
+   dan nog ~145px vrij. De rechterkaarten schuiven 16px naar het gebouw toe
+   (en worden compact, zie hieronder); de balk krijgt iets minder
+   binnenruimte, zodat "Aandachtspunten" en de videotekst blijven passen. */
+@media (1180px < width <= 1300px){
+  .hs-stage--ui{--ax-schuif:16px}
+  .hs-stat{padding:10px 14px}
+  .hs-video{gap:12px;padding:6px 10px 6px 14px}
+}
+/* compacte kaarten: net boven het stapelpunt, en gestapeld op tablets waar de
+   opname klein is en de twee rechterkaarten anders over elkaar vallen */
+@media (1180px < width <= 1300px), (max-width:900px){
+  .hs-tag{gap:9px;padding:7px 13px 7px 8px;min-height:44px;border-radius:12px}
+  .hs-tag__ico{width:30px;height:30px;border-radius:9px}
+  .hs-tag__ico svg{width:16px;height:16px}
+  .hs-tag small{display:none}
+}
+
+/* ---- gestapeld: zelfde breekpunt als de rest van de hero (1180px) ----- */
+@media (max-width:1180px){
+  .hero--scene .fact br{display:none}   /* gestapeld: vrij doorlopen zoals voorheen */
+  .hero--scene h1{font-size:min(4rem, calc((100vw - 2rem) * .155))}
+  .hero--scene{display:block;min-height:0;padding-bottom:0}
+  .hs-scene{
+    position:relative;inset:auto;width:100%;
+    height:clamp(440px, 72vw, 680px);margin-top:clamp(28px,5vw,44px);
+  }
+  .hs-photo{
+    -webkit-mask-image:linear-gradient(180deg, transparent 0%, #000 20%), linear-gradient(0deg, transparent 0%, #000 12%);
+            mask-image:linear-gradient(180deg, transparent 0%, #000 20%), linear-gradient(0deg, transparent 0%, #000 12%);
+  }
+  .hs-bar{left:max(14px, calc((100% - var(--wrap)) / 2));right:max(14px, calc((100% - var(--wrap)) / 2));bottom:16px}
+  .hs-rule{position:relative;bottom:auto;padding:18px 0 26px}
+}
+/* Liggende tablets en kleine laptops (901–1180px): de kop in drie regels in
+   plaats van vijf ("Professionele drone-" en "Helder vastgelegd." elk op één
+   regel) en de kenmerken rechts naast de tekst. Zo staan de drone en de scan
+   al in het eerste scherm. vertical-align:top houdt de regelafstand gelijk:
+   .line knipt af (overflow:hidden) en zou als inline-block anders op zijn
+   onderrand uitlijnen. */
+@media (901px <= width <= 1180px){
+  .hero--scene h1 .line:nth-child(1),.hero--scene h1 .line:nth-child(4){display:inline-block;vertical-align:top;margin-right:.22em}
+  .hero--scene h1 .line:nth-child(2),.hero--scene h1 .line:nth-child(5){display:inline-block;vertical-align:top}
+  .hero--scene .hero__copy{
+    max-width:none;display:grid;grid-template-columns:minmax(0,640px) auto;
+    column-gap:clamp(32px,5vw,64px);justify-content:space-between;
+  }
+  .hero--scene .hero__copy > *{grid-column:1}
+  .hero--scene .hero__facts{
+    grid-column:2;grid-row:1 / span 4;align-self:end;
+    flex-direction:column;flex-wrap:nowrap;gap:16px;margin:0;padding:0 0 4px 26px;
+    border-top:0;border-left:1px solid rgba(20,7,45,.14);
+  }
+  .hs-scene{margin-top:28px}
+}
+@media (max-width:900px){
+  .hs-bar{grid-template-columns:repeat(3,minmax(0,1fr));padding:6px}
+  .hs-stat{padding:10px 16px}
+  .hs-stat:nth-child(3){border-right:0}
+  .hs-video{display:none}
+}
+@media (max-width:640px){
+  .hs-scene{--hs-fx:60%}        /* smal venster: iets naar rechts, zodat de drone in beeld blijft */
+  .hs-lead,.hs-knee{display:none}
+  /* de kaarten verdwijnen alleen visueel: de lijst houdt zo voor schermlezers
+     de drie namen (display:none liet drie lege lijstitems over) */
+  .hero--scene .hs-tag{
+    display:flex;position:absolute;width:1px;height:1px;min-height:0;max-width:none;
+    padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;border:0;
+    box-shadow:none;-webkit-backdrop-filter:none;backdrop-filter:none;animation:none;
+  }
+  .hs-pin{scale:.85}
+  .hs-stat{padding:9px 10px}
+  .hs-stat b{font-size:1.25rem}
+  .hs-stat span{font-size:.7rem}
+  .hs-rule{flex-direction:column;align-items:flex-start;gap:10px}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .hs-img,.hs-svg,.hs-call{animation:none;transform:none}
+  body.ready .hs-stage{transition:none}
+  .hs-pin::after{animation:none;opacity:0}
+  .hs-tag,.hs-pin,.hs-knee,.hs-lead{animation:none}
+  .rig,.roof-halo,.roof-sweep,.fan-rays line,.fan-lens{animation:none}
+  .roof-sweep{opacity:0}
+  .hs-video__thumb img,.hs-video small svg{transition:none}
+}

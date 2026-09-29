@@ -1,0 +1,15 @@
+/* Stijlen van de testpagina prototype-diensten (waren inline in prototype-diensten.html). Enkel op die pagina geladen. */
+body{background:#0a0520;color:#fff}
+.lab{width:min(1500px,calc(100% - 48px));margin-inline:auto;padding:34px 0 80px}
+.lab h1{font-size:clamp(1.8rem,3vw,2.6rem);color:#fff;margin-bottom:10px}
+.lab p.intro{color:rgba(220,207,244,.72);font-size:.95rem;max-width:66ch}
+.labgrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px;margin-top:34px}
+.card{border:1px solid rgba(150,47,188,.28);border-radius:18px;overflow:hidden;background:linear-gradient(180deg,rgba(28,12,62,.7),rgba(10,5,32,.7))}
+.view2{position:relative;aspect-ratio:16/10;background:radial-gradient(120% 90% at 74% 8%,#241058 0%,transparent 60%),linear-gradient(165deg,#160a3a,#0a0520 72%)}
+.view2 canvas{position:absolute;inset:0;width:100%;height:100%}
+.tag{position:absolute;left:14px;top:12px;z-index:2;font-family:"JetBrains Mono",monospace;font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(222,203,247,.85)}
+.hudl{position:absolute;left:14px;bottom:12px;z-index:2;font-family:"JetBrains Mono",monospace;font-size:.54rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(198,172,236,.6)}
+.body2{padding:18px 20px 22px}
+.body2 h2{font-size:1.14rem;color:#fff;margin-bottom:6px}
+.body2 p{font-size:.84rem;color:rgba(220,207,244,.72)}
+@media (max-width:1080px){.labgrid{grid-template-columns:1fr}}

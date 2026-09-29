@@ -1,0 +1,9 @@
+.next
+node_modules
+public
+package-lock.json
+# de oorspronkelijke scripts en stijlen blijven in hun eigen opmaak
+src/scripts
+src/styles/legacy
+# oorspronkelijke documentatie, ongewijzigd
+docs
