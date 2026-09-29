@@ -5,7 +5,6 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { cases, routes } from "@/config/site";
 import { graph, webPage, breadcrumbs } from "@/lib/structured-data";
 import { pageMetadata } from "@/lib/seo";
-import { DraftBar } from "@/components/sections/case-woning-3d/DraftBar";
 import { Hero } from "@/components/sections/case-woning-3d/Hero";
 import { Summary } from "@/components/sections/case-woning-3d/Summary";
 import { Approach } from "@/components/sections/case-woning-3d/Approach";
@@ -59,7 +58,7 @@ export default function CaseWoning3dPage() {
         scripts="case-woning"
         afterMain={<Dialogs />}
       >
-        {!caseInfo.published && <DraftBar />}
+        {!caseInfo.published}
         <Hero />
         <Summary />
         <Approach />

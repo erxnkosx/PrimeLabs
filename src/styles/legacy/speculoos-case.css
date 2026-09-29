@@ -1,12 +1,3 @@
-/* Speculoosfabriek case page — uses the shared Primelabs design tokens. */
-.sc-draftbar{position:relative;z-index:2;margin-top:var(--nav-h);background:#f6f1fb;border-bottom:1px solid #e6dcef;color:#3c2b52}
-.sc-draftbar__in{min-height:42px;display:flex;align-items:center;gap:11px;font-size:.75rem}
-.sc-draftbar__dot,.sc-live-dot{width:8px;height:8px;flex:none;border-radius:50%;background:#a647b8;box-shadow:0 0 0 4px rgba(166,71,184,.13)}
-.sc-draftbar__in p{display:flex;gap:9px;align-items:baseline;flex-wrap:wrap}
-.sc-draftbar__in strong{font-weight:700;color:#4a1b67}
-.sc-draftbar__in p span{color:#71647e}
-.sc-draftbar__label{margin-left:auto;font:500 .58rem/1 "JetBrains Mono",monospace;letter-spacing:.15em;color:#704783}
-
 .sc-hero{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(150deg,#0b0527 0%,#140833 54%,#0c0621 100%);color:#fff;padding:clamp(38px,4.2vw,60px) 0 clamp(52px,5.2vw,74px)}
 .sc-hero__glow{position:absolute;z-index:-1;inset:-25% -10% auto 45%;height:90%;background:radial-gradient(ellipse at 60% 34%,rgba(85,30,152,.53),transparent 62%);pointer-events:none}
 .sc-hero__grid{position:absolute;z-index:-1;inset:0;opacity:.22;background-image:linear-gradient(rgba(205,180,245,.075) 1px,transparent 1px),linear-gradient(90deg,rgba(205,180,245,.075) 1px,transparent 1px);background-size:58px 58px;mask-image:linear-gradient(90deg,transparent 2%,#000 54%,#000)}
@@ -328,9 +319,6 @@
   .sc-private-levels{grid-column:2;padding:18px 0 0;border-left:0;border-top:1px solid #e6e0e9}
 }
 @media(max-width:560px){
-  .sc-draftbar__in{align-items:flex-start;padding-top:10px;padding-bottom:10px}
-  .sc-draftbar__in p{display:grid;gap:2px;line-height:1.45}
-  .sc-draftbar__label{padding-top:3px;font-size:.5rem}
   .sc-hero{padding:30px 0 56px}
   .sc-back{margin-bottom:18px}
   .sc-hero h1{font-size:clamp(2.8rem,12vw,4rem)}

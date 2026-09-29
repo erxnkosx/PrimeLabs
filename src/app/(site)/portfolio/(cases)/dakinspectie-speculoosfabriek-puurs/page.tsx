@@ -4,7 +4,6 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { cases, routes } from "@/config/site";
 import { graph, webPage, breadcrumbs } from "@/lib/structured-data";
 import { pageMetadata } from "@/lib/seo";
-import { DraftBar } from "@/components/sections/case-dakinspectie/DraftBar";
 import { Hero } from "@/components/sections/case-dakinspectie/Hero";
 import { Summary } from "@/components/sections/case-dakinspectie/Summary";
 import { Brief } from "@/components/sections/case-dakinspectie/Brief";
@@ -59,7 +58,7 @@ export default function CaseDakinspectiePage() {
         scripts="case-inspectie"
         afterMain={<Dialogs />}
       >
-        {!caseInfo.published && <DraftBar />}
+        {!caseInfo.published}
         <Hero />
         <Summary />
         <Brief />

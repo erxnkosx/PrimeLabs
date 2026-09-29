@@ -5,7 +5,6 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { cases, routes } from "@/config/site";
 import { graph, webPage, breadcrumbs } from "@/lib/structured-data";
 import { pageMetadata } from "@/lib/seo";
-import { DraftBar } from "@/components/sections/case-werfopvolging/DraftBar";
 import { Hero } from "@/components/sections/case-werfopvolging/Hero";
 import { Summary } from "@/components/sections/case-werfopvolging/Summary";
 import { Approach } from "@/components/sections/case-werfopvolging/Approach";
@@ -59,7 +58,7 @@ export default function CaseWerfopvolgingPage() {
         scripts="case-inspectie"
         afterMain={<Dialogs />}
       >
-        {!caseInfo.published && <DraftBar />}
+        {!caseInfo.published}
         <Hero />
         <Summary />
         <Approach />
