@@ -1,0 +1,29 @@
+/* ==========================================================================
+   Casepagina's — mobiele verfijningen (audit 29-09-2026)
+   Als laatste geladen op elke casepagina, na speculoos-case.css en de
+   casebestanden, zodat dezelfde selectors hier winnen.
+   ========================================================================== */
+
+/* aanraakdoel "Terug naar portfolio" minstens 44 px hoog */
+@media (max-width: 900px) {
+  .sc-back {
+    min-height: 44px;
+  }
+}
+
+/* kleinste monolabels minstens ~9,3 px (waren 7,8 – 8,8 px op een telefoon) */
+@media (max-width: 640px) {
+  .sc-step__meta,
+  .sc-finding-card__id,
+  .sc-private-levels div span,
+  .sc-address-example b,
+  .sc-report-mini__specs dt,
+  .sc-finding-data dt,
+  .sc-obs__facts dt,
+  .sc-insp-tag,
+  .sc-view-tab span,
+  .sc-hud-coords,
+  .sc-viewer__hint {
+    font-size: 0.58rem;
+  }
+}

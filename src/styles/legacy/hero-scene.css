@@ -439,6 +439,12 @@ body.ready .hs-stage{transition:opacity .6s var(--ease)}
   .hs-stat span{font-size:.7rem}
   .hs-rule{flex-direction:column;align-items:flex-start;gap:10px}
 }
+/* [mobiel] kleinste telefoons (≤ 380 px): "Aandachtspunten" liep in "Beelden" */
+@media (max-width:380px){
+  .hero--scene .hs-bar{grid-template-columns:1.32fr 1fr 1fr}
+  .hero--scene .hs-stat{padding:9px 8px}
+  .hero--scene .hs-stat span{font-size:.64rem;hyphens:auto}
+}
 
 @media (prefers-reduced-motion:reduce){
   .hs-img,.hs-svg,.hs-call{animation:none;transform:none}

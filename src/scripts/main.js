@@ -103,11 +103,24 @@
   window.addEventListener('scroll', onScroll, { passive: true });
 
   var burger = $('.burger');
-  if (burger) burger.addEventListener('click', function () {
-    document.body.classList.toggle('menu-open');
-    burger.setAttribute('aria-expanded', document.body.classList.contains('menu-open'));
+  /* [mobiel] één plek die het menu opent of sluit, zodat knop, aria en scroll-lock gelijk lopen */
+  function menu(open) {
+    document.body.classList.toggle('menu-open', open);
+    if (burger) burger.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  if (burger) burger.addEventListener('click', function () { menu(!document.body.classList.contains('menu-open')); });
+  $$('.mob a').forEach(function (a) { a.addEventListener('click', function () { menu(false); }); });
+  var scrim = $('.mob__scrim');
+  if (scrim) scrim.addEventListener('click', function () { menu(false); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && document.body.classList.contains('menu-open')) { menu(false); if (burger) burger.focus(); }
   });
-  $$('.mob a').forEach(function (a) { a.addEventListener('click', function () { document.body.classList.remove('menu-open'); }); });
+  /* draait het toestel of wordt het venster breder dan het menu-breekpunt: menu dicht */
+  if (window.matchMedia) {
+    var breed = window.matchMedia('(min-width: 901px)');
+    var dicht = function (e) { if (e.matches) menu(false); };
+    breed.addEventListener ? breed.addEventListener('change', dicht) : breed.addListener(dicht);
+  }
 
   /* ---------------- magnetic buttons ---------------- */
   if (FINE && !RM) $$('.btn, .nav__cta').forEach(function (b) {

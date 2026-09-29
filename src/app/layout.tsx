@@ -3,6 +3,7 @@ import { company, SITE_URL } from "@/config/site";
 import "@/styles/fonts";
 import "./globals.css";
 import "@/styles/legacy/style.css";
+import "@/styles/mobile.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

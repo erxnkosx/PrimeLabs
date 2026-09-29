@@ -117,7 +117,7 @@ export function Hero() {
             <img
               className="hs-img"
               src="/assets/img/broox-hero-1500.webp"
-              srcSet="/assets/img/broox-hero-1500.webp 1500w, /assets/img/broox-hero-2200.webp 2200w, /assets/img/broox-hero-2800.webp 2800w"
+              srcSet="/assets/img/broox-hero-800.webp 800w, /assets/img/broox-hero-1200.webp 1200w, /assets/img/broox-hero-1500.webp 1500w, /assets/img/broox-hero-2200.webp 2200w, /assets/img/broox-hero-2800.webp 2800w"
               sizes="(max-width: 611px) 660px, (max-width: 944px) 108vw, (max-width: 1020px) 1020px, (max-width: 1180px) 100vw, max(1410px, calc(47.5vw + 277px))"
               width="2000"
               height="1333"

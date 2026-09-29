@@ -16,7 +16,9 @@ export function SiteFooter() {
           <p className="foot__t">Professionele visuele inspecties voor gebouwen, werven en infrastructuur.</p>
         </div>
         <div>
-          <h4>Navigatie</h4>
+          <h4 role="heading" aria-level={2}>
+            Navigatie
+          </h4>
           <ul>
             {mainNav.map((item) => (
               <li key={item.key}>
@@ -33,7 +35,9 @@ export function SiteFooter() {
           </ul>
         </div>
         <div>
-          <h4>Contact</h4>
+          <h4 role="heading" aria-level={2}>
+            Contact
+          </h4>
           <address>
             PRIMELABS
             <br />

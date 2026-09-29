@@ -97,6 +97,8 @@ window.PL3D = (function () {
     });
     el.addEventListener('pointerdown', function (e) { down = true; px = e.clientX; py = e.clientY; el.setPointerCapture && el.setPointerCapture(e.pointerId); });
     window.addEventListener('pointerup', function () { down = false; });
+    /* [mobiel] een verticale veeg wordt scrollen (touch-action:pan-y): dan komt er geen pointerup */
+    el.addEventListener('pointercancel', function () { down = false; });
     el.addEventListener('pointerleave', function () { state.tYaw = state.base + state.dragY; state.tPitch = state.dragX; });
   }
   /* rAF loop that pauses off-screen and on hidden tabs */

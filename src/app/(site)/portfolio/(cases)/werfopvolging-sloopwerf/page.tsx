@@ -15,6 +15,7 @@ import { Scope } from "@/components/sections/case-werfopvolging/Scope";
 import { Privacy } from "@/components/sections/case-werfopvolging/Privacy";
 import { FinalCta } from "@/components/sections/case-werfopvolging/FinalCta";
 import { Dialogs } from "@/components/sections/case-werfopvolging/Dialogs";
+import "@/styles/cases-mobile.css";
 
 const title = "Case 02 · Een sloopwerf, dag na dag — Primelabs";
 const description =
@@ -58,7 +59,6 @@ export default function CaseWerfopvolgingPage() {
         scripts="case-inspectie"
         afterMain={<Dialogs />}
       >
-        {!caseInfo.published}
         <Hero />
         <Summary />
         <Approach />

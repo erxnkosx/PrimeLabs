@@ -15,6 +15,7 @@ import { Scope } from "@/components/sections/case-woning-3d/Scope";
 import { Privacy } from "@/components/sections/case-woning-3d/Privacy";
 import { FinalCta } from "@/components/sections/case-woning-3d/FinalCta";
 import { Dialogs } from "@/components/sections/case-woning-3d/Dialogs";
+import "@/styles/cases-mobile.css";
 
 const title = "Case 03 · Woning met platte daken in 3D — Primelabs";
 const description =
@@ -58,7 +59,6 @@ export default function CaseWoning3dPage() {
         scripts="case-woning"
         afterMain={<Dialogs />}
       >
-        {!caseInfo.published}
         <Hero />
         <Summary />
         <Approach />

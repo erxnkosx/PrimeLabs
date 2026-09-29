@@ -326,6 +326,13 @@
     scroll-margin-top: calc(var(--nav-h) + 112px);
   }
 }
+/* telefoon in liggende stand: nav + vaste stappenbalk zouden de helft van het scherm innemen */
+@media (max-height: 520px) {
+  .proc-rail {
+    position: relative;
+    top: auto;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .proc-rail__list::after,
   .proc-rail__n {

@@ -1,0 +1,9 @@
+# Regeleinden in de repo altijd LF (voorkomt dat Windows-editors elk bestand als gewijzigd tonen)
+* text=auto eol=lf
+*.webp binary
+*.png binary
+*.jpg binary
+*.ico binary
+*.mp4 binary
+*.sog binary
+*.woff2 binary

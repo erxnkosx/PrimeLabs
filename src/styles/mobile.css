@@ -1,0 +1,105 @@
+/* ==========================================================================
+   Mobiele verfijningen — audit van 29-09-2026
+   Geladen na legacy/style.css (root layout). Alleen aanvullingen: de
+   gekalibreerde desktopweergave verandert niet.
+   ========================================================================== */
+
+/* ---------- mobiel menu ------------------------------------------------- */
+.mob__scrim {
+  display: none;
+}
+.mob a[aria-current="page"] {
+  color: var(--brand);
+}
+@media (max-width: 900px) {
+  /* gesloten: ook niet bereikbaar met Tab of voor schermlezers (enkel dichtgeklapt
+     met clip-path bleven de links focusbaar); visibility schakelt pas na de animatie */
+  .mob {
+    visibility: hidden;
+    transition:
+      clip-path 0.55s var(--out),
+      visibility 0s linear 0.55s;
+    max-height: calc(100dvh - var(--nav-h));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+  body.menu-open .mob {
+    visibility: visible;
+    transition:
+      clip-path 0.55s var(--out),
+      visibility 0s;
+  }
+  /* de pagina erachter scrolt niet mee (overflow op body alleen werkt niet op iOS) */
+  html:has(body.menu-open) {
+    overflow: hidden;
+  }
+  /* donkere laag naast het menu: tik erop om te sluiten */
+  .mob__scrim {
+    display: block;
+    position: fixed;
+    inset: var(--nav-h) 0 0;
+    z-index: 74;
+    background: rgba(10, 4, 32, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s var(--ease);
+  }
+  body.menu-open .mob__scrim {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .mob .mob__cta {
+    justify-content: center;
+    margin-top: 20px;
+    padding: 15px 22px;
+    border-bottom: 0;
+    font-size: 0.95rem;
+    font-weight: 600;
+  }
+  .mob__contact {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0 20px;
+    margin-top: 12px;
+  }
+  .mob .mob__contact a {
+    padding: 11px 0;
+    border-bottom: 0;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+}
+
+/* ---------- formulier ---------------------------------------------------- */
+/* onder 16px zoomt iOS Safari in zodra je een veld aantikt */
+@media (max-width: 900px) {
+  .field input,
+  .field select,
+  .field textarea {
+    font-size: 16px;
+  }
+}
+
+/* ---------- aanraakdoelen ------------------------------------------------ */
+@media (max-width: 900px) {
+  .case__open {
+    min-height: 44px;
+  }
+}
+
+/* ---------- portfolio: tekst naast de dienst mag de volle breedte nemen -- */
+@media (max-width: 900px) {
+  .pf-group__head p {
+    max-width: none;
+  }
+}
+
+/* ---------- leesbaarheid: kleinste labels minstens ~9,3 px --------------- */
+@media (max-width: 640px) {
+  .vstat > span,
+  .hud-row--b,
+  .hud-row--m,
+  .hud-count {
+    font-size: 0.58rem;
+  }
+}

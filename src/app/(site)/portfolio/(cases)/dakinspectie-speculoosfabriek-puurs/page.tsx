@@ -15,6 +15,7 @@ import { Scope } from "@/components/sections/case-dakinspectie/Scope";
 import { Privacy } from "@/components/sections/case-dakinspectie/Privacy";
 import { FinalCta } from "@/components/sections/case-dakinspectie/FinalCta";
 import { Dialogs } from "@/components/sections/case-dakinspectie/Dialogs";
+import "@/styles/cases-mobile.css";
 
 const title = "Case 01 · Speculoosfabriek in Puurs — Primelabs";
 const description =
@@ -58,7 +59,6 @@ export default function CaseDakinspectiePage() {
         scripts="case-inspectie"
         afterMain={<Dialogs />}
       >
-        {!caseInfo.published}
         <Hero />
         <Summary />
         <Brief />

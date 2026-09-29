@@ -185,7 +185,7 @@ p{margin:0}
    (mark = 38,113 → 348,522 in een bron van 2000×604) */
 .mark{
   --h:46px;flex:none;height:var(--h);width:calc(var(--h) * .758);
-  background-image:url(/assets/img/primelabs-logo.webp); /* [Next.js] absoluut pad naar public/ */background-repeat:no-repeat;
+  background-image:url(/assets/img/primelabs-logo-600.webp); /* [Next.js] absoluut pad naar public/ */background-repeat:no-repeat;
   background-size:calc(var(--h) * 4.89) calc(var(--h) * 1.4768);
   background-position:calc(var(--h) * -.0929) calc(var(--h) * -.2763);
   filter:drop-shadow(0 4px 16px rgba(107,10,147,.5));
