@@ -38,7 +38,7 @@
    scherm blijft. Nooit kleiner dan 40px. */
 .hero--scene h1{
   font-size:clamp(2.5rem, min(calc(4.96vw - 1px), calc(16svh - 70px)), 4.625rem);
-  line-height:.9;
+  line-height:1;
   margin-bottom:30px;
 }
 /* .line knipt elke regel af voor de onthulling. Bij deze strakke interlinie
