@@ -405,14 +405,19 @@ donkerste bladpixels ≥ 5:1); wit haalde daar 1,5:1.
   pulseren, het gescande punt licht op. 02 werf in uitvoering (ruwbouw, graafmachine die elke ronde
   hetzelfde brok in de container lost) met rond het bouwvolume een vaste, gloeiende
   spline-route langs acht GPS-standpunten; achter de drone licht het spoor op, en op elk
-  standpunt volgt een opnameflits richting de ruwbouw. 03 fotogrammetrie: de woning met platte daken uit case 03, nagebouwd in de huisstijl naar
-  `woning-case/boven.webp` en `model-poster.webp` (hoofdvolume met collectoren, lichtkoepel en
-  doorvoeren, lager volume met glazen tuingevel, terras, gazon, glazen overkapping, houten schuur
-  met zadeldak en twee vuurkorven; geen texturen of adres, dus bruikbaar vóór de publicatie van de
-  case). De drone vliegt een raster (serpentine), de puntenwolk groeit in vluchtvolgorde mee (daken
-  én gevels) en kleurt op hoogte; daarna schuift een scanlijn over het perceel, met achter de lijn
-  het polygoonmesh (en een nagloeiende band verse driehoeken) en ervoor nog de punten; tot slot de
-  opmeting van het platte dak van het hoofdvolume. Dat knippen gebeurt met clipping planes (`localClippingEnabled`), die de scène
+  standpunt volgt een opnameflits richting de ruwbouw. 03 fotogrammetrie: de woning met platte daken uit case 03, mét de tuin, nagebouwd in de
+  huisstijl. Alle maten komen uit het bovenaanzicht `woning-case/boven.webp` (3,6° rechtgezet) en staan
+  in de code in pixels van dat beeld (`px → scène`: 250 px = 1 eenheid ≈ 7,6 m; een terrastegel van
+  60 cm = 20 px); hoogtes in meter, uit de schuine beelden. Opgebouwd: hoofdvolume met twee
+  zonnecollectoren op hun frame, patio, dampkappen met leiding, platte lichtkoepel en koepeltje; het
+  lage volume met glazen pui (profielen, muurlampen); terras met tegelvoegen, vuurkorven en
+  lichtkoker; gazon; glazen overkapping met zeven vakken; houten schuur met rieten zadeldak; plantvak
+  met conifeer, afsluiting en poort; bamboehaag, struiken en het glazen tuinhuisje. Geen texturen of
+  adres, dus bruikbaar vóór de publicatie van de case. De camera kijkt vanuit de tuin, zoals de render
+  van het model. De drone vliegt een raster (serpentine), de puntenwolk groeit in vluchtvolgorde mee
+  (daken, gevels en kruinen) en kleurt op hoogte; daarna schuift een scanlijn over het perceel, met
+  achter de lijn het polygoonmesh en ervoor nog de punten; tot slot de opmeting van het platte dak.
+  Kleine onderdelen worden per soort samengevoegd tot één geometrie (155 draw calls). Dat knippen gebeurt met clipping planes (`localClippingEnabled`), die de scène
   elk frame naar de wereldruimte omzet.
 - **Werkwijze** — één scène met vijf fasen: locatiemarkering → afgesproken zones →
   dronevlucht met scanvlak → genummerde aandachtspunten → opgeleverd dossier.
