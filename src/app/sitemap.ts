@@ -21,6 +21,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     entry(routes.werkwijze, 0.8),
     entry(routes.portfolio, 0.8),
     entry(routes.offerte, 0.9),
+    entry(routes.privacybeleid, 0.3),
+    entry(routes.bedrijfsgegevens, 0.3),
   ];
 
   const casePages = Object.values(cases)

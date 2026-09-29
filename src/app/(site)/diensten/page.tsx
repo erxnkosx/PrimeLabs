@@ -9,7 +9,7 @@ import { ServiceRows } from "@/components/sections/diensten/ServiceRows";
 import { Scope } from "@/components/sections/diensten/Scope";
 import { Cta } from "@/components/sections/diensten/Cta";
 
-const title = "Diensten — Primelabs Drone Inspecties";
+const title = "Dakinspectie, werfopvolging en 3D-modellering met drone | Primelabs";
 const description =
   "Drie kerndiensten voor technische dossiers: visuele dak- en gevelinspecties met standaard inspectierapport, periodieke werfopvolging met nulmeting, en fotogrammetrie en 3D-modellering met orthofoto’s, puntenwolken en volumemetingen.";
 

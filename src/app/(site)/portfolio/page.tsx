@@ -10,7 +10,7 @@ import { CasePreview } from "@/components/sections/portfolio/CasePreview";
 import { ReferencePolicy } from "@/components/sections/portfolio/ReferencePolicy";
 import { Cta } from "@/components/sections/portfolio/Cta";
 
-const title = "Portfolio — Primelabs Drone Inspecties";
+const title = "Portfolio drone-inspecties: cases per dienst | Primelabs";
 const description =
   "Portfolio van Primelabs Drone Inspecties, gesorteerd per dienst: dak- en gevelinspecties, periodieke werfopvolging en fotogrammetrie & 3D-modellering. Geen stockbeelden; publicatie enkel met toestemming.";
 

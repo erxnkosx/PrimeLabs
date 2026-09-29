@@ -37,6 +37,16 @@ export function siteGraph(): Graph {
     email: company.email,
     telephone: company.phone,
     vatID: company.vatId,
+    taxID: company.kbo,
+    ...(company.sameAs.length ? { sameAs: company.sameAs } : {}),
+    contactPoint: {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      telephone: company.phone,
+      email: company.email,
+      areaServed: "BE",
+      availableLanguage: ["nl"],
+    },
   };
 
   const business: ProfessionalService = {
@@ -50,6 +60,7 @@ export function siteGraph(): Graph {
     email: company.email,
     telephone: company.phone,
     vatID: company.vatId,
+    ...(company.sameAs.length ? { sameAs: company.sameAs } : {}),
     parentOrganization: { "@id": ids.organization },
     address: {
       "@type": "PostalAddress",

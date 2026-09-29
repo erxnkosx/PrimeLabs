@@ -18,6 +18,19 @@ export const company = {
   phone: "+32478261704",
   phoneDisplay: "+32 478 26 17 04",
   vatId: "BE1017602056",
+  /** Ondernemingsnummer (KBO). In België gelijk aan het btw-nummer zonder "BE". */
+  kbo: "1017.602.056",
+  /*
+   * Aanvullen voor de pagina Bedrijfsgegevens (lege velden worden niet getoond):
+   * - legalForm: rechtsvorm, bv. "eenmanszaak" of "BV"
+   * - droneOperatorId: registratienummer als UAS-operator bij het DG Luchtvaart (bv. "BELxxxxxxxxxxxx")
+   * - insurance: verzekeraar en polis voor beroepsaansprakelijkheid / luchtvaartaansprakelijkheid
+   */
+  legalForm: "",
+  droneOperatorId: "",
+  insurance: "",
+  /** Profielen op sociale media (volledige URL's), voor structured data (sameAs). */
+  sameAs: [] as string[],
   address: {
     street: "Buisstraat 13/B",
     postalCode: "2890",
@@ -29,7 +42,7 @@ export const company = {
   locale: "nl_BE",
   language: "nl-BE",
   themeColor: "#3a078a",
-} as const;
+};
 
 export const routes = {
   home: "/",
@@ -37,6 +50,8 @@ export const routes = {
   werkwijze: "/werkwijze",
   portfolio: "/portfolio",
   offerte: "/offerte",
+  privacybeleid: "/privacybeleid",
+  bedrijfsgegevens: "/bedrijfsgegevens",
   caseDakinspectie: "/portfolio/dakinspectie-speculoosfabriek-puurs",
   caseWerfopvolging: "/portfolio/werfopvolging-sloopwerf",
   caseWoning3d: "/portfolio/3d-model-woning",
@@ -103,3 +118,9 @@ export const cases = {
 
 /** Datum van de laatste inhoudelijke wijziging per pagina (voor de sitemap). */
 export const lastModified = new Date("2026-09-29");
+
+/**
+ * Google Analytics 4 — meet-ID (G-XXXXXXXXXX) via NEXT_PUBLIC_GA_ID. Leeg = geen analytics
+ * en geen cookiebanner. GA laadt pas na toestemming (zie components/consent/CookieConsent.tsx).
+ */
+export const GA_ID = (process.env.NEXT_PUBLIC_GA_ID ?? "").trim();

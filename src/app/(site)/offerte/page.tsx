@@ -7,7 +7,7 @@ import { pageMetadata } from "@/lib/seo";
 import { RequestHero } from "@/components/sections/offerte/RequestHero";
 import { AfterRequest } from "@/components/sections/offerte/AfterRequest";
 
-const title = "Offerte aanvragen — Primelabs Drone Inspecties";
+const title = "Offerte voor een drone-inspectie aanvragen | Primelabs";
 const description =
   "Vraag een drone-inspectie aan: bezorg het adres, het doel en de gewenste timing. U ontvangt een gerichte reactie met de juiste aanpak en een transparant voorstel.";
 

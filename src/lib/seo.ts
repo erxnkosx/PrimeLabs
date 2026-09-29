@@ -32,7 +32,7 @@ export function pageMetadata({
   return {
     title: { absolute: title },
     description,
-    alternates: { canonical: path },
+    alternates: { canonical: path, languages: { "nl-BE": path, "x-default": path } },
     openGraph: {
       type,
       locale: company.locale,

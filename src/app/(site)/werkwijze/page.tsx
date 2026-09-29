@@ -12,7 +12,7 @@ import { Expectations } from "@/components/sections/werkwijze/Expectations";
 import { Faq } from "@/components/sections/werkwijze/Faq";
 import { Cta } from "@/components/sections/werkwijze/Cta";
 
-const title = "Werkwijze — Primelabs Drone Inspecties";
+const title = "Werkwijze: zo verloopt een drone-inspectie | Primelabs";
 const description =
   "Van inspectievraag naar helder dossier: scope en voorbereiding, opname op locatie, selectie en rapportage, oplevering en opvolging. Plus wat u mag verwachten en veelgestelde vragen.";
 

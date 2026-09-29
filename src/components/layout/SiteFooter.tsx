@@ -1,4 +1,4 @@
-import { company, mainNav, routes } from "@/config/site";
+import { company, GA_ID, mainNav, routes } from "@/config/site";
 
 export function SiteFooter() {
   return (
@@ -14,6 +14,10 @@ export function SiteFooter() {
             </span>
           </a>
           <p className="foot__t">Professionele visuele inspecties voor gebouwen, werven en infrastructuur.</p>
+          <p className="foot__t foot__area">
+            Drone-inspecties in heel België, vanuit {company.address.locality} (provincie{" "}
+            {company.address.region}).
+          </p>
         </div>
         <div>
           <h4 role="heading" aria-level={2}>
@@ -25,13 +29,19 @@ export function SiteFooter() {
                 <a href={item.href}>{item.label}</a>
               </li>
             ))}
-            {/* TODO bij livegang: echte pagina's voor privacybeleid en bedrijfsgegevens */}
             <li>
-              <a href="#">Privacybeleid</a>
+              <a href={routes.privacybeleid}>Privacybeleid</a>
             </li>
             <li>
-              <a href="#">Bedrijfsgegevens</a>
+              <a href={routes.bedrijfsgegevens}>Bedrijfsgegevens</a>
             </li>
+            {GA_ID && (
+              <li>
+                <button type="button" className="foot__link" data-consent-open="">
+                  Cookie-instellingen
+                </button>
+              </li>
+            )}
           </ul>
         </div>
         <div>
@@ -49,7 +59,7 @@ export function SiteFooter() {
             <br />
             <a href={`tel:${company.phone}`}>{company.phoneDisplay}</a>
             <br />
-            BE 1017.602.056
+            BTW BE {company.kbo}
           </address>
         </div>
       </div>

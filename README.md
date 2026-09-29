@@ -147,18 +147,62 @@ Andere hosting kan ook (`npm run build && npm run start`, of een Node-/Docker-om
 en headers uit `next.config.ts` vereisen een Next.js-server; bij een puur statische export zou je die
 in de hostingconfiguratie moeten overnemen.
 
+## Offerteformulier (Resend)
+
+Het formulier post naar `/api/offerte`: een **Cloudflare Pages Function** (`functions/api/offerte.ts`)
+die de aanvraag via [Resend](https://resend.com) mailt naar Primelabs, met de aanvrager als
+antwoordadres. Er wordt niets opgeslagen. Spam wordt geweerd met een onzichtbaar honeypotveld, een
+minimale invultijd en validatie. Lukt verzenden niet (functie niet ingesteld, storing), dan opent het
+mailprogramma van de bezoeker, zoals vroeger.
+
+1. Maak een account op resend.com en voeg het domein `primelabs.be` toe onder **Domains**. Zet de
+   DNS-records die Resend toont (SPF/DKIM, eventueel DMARC) bij je domeinbeheer en wacht op "Verified".
+2. Maak onder **API Keys** een sleutel met "Sending access".
+3. In Cloudflare → project **primelabs-aap** → **Settings** → **Variables and Secrets** (voor
+   Production én Preview):
+   - `RESEND_API_KEY` (type **Secret**) = de sleutel
+   - `RESEND_FROM` = `Primelabs <offerte@primelabs.be>` (een adres op het geverifieerde domein)
+   - `OFFERTE_TO` = `info@primelabs.be` (meerdere: komma-gescheiden)
+   - optioneel `OFFERTE_BEVESTIGING` = `true`: de aanvrager krijgt een ontvangstbevestiging
+4. Start een nieuwe deployment. Test het formulier op de live site.
+
+Lokaal testen van de functie: `STATIC_EXPORT=1 npm run build` en daarna
+`npx wrangler pages dev out` (met de variabelen in een `.dev.vars`-bestand). Met gewoon `npm run dev`
+bestaat `/api/offerte` niet en valt het formulier terug op het mailprogramma.
+
+## Google Analytics en cookiebanner
+
+Zet `NEXT_PUBLIC_GA_ID` (bv. `G-XXXXXXXXXX`) als build-variabele in Cloudflare en deploy opnieuw.
+Zonder die variabele is er geen analytics en verschijnt er geen banner.
+
+- Vóór toestemming laadt er niets van Google en wordt er geen cookie gezet.
+- "Weigeren" en "Accepteren" zijn even groot en even zichtbaar; de keuze geldt 6 maanden.
+- "Cookie-instellingen" in de footer (en in het privacybeleid) opent de keuze opnieuw; intrekken wist
+  de `_ga`-cookies meteen.
+- Google Signals en advertentiefuncties staan uit. Zet in Google Analytics onder
+  _Beheer → Gegevensverzameling → Gegevensbewaring_ de bewaartermijn op 14 maanden (zoals in het
+  privacybeleid staat).
+- Een geslaagde offerteaanvraag wordt gemeten als het event `generate_lead`. Markeer het in GA als
+  "Belangrijke gebeurtenis" om conversies te zien.
+
+## Juridische pagina's
+
+`/privacybeleid` en `/bedrijfsgegevens` staan in `src/app/(site)/`. De gegevens komen uit
+`src/config/site.ts`: vul daar `legalForm` (rechtsvorm), `droneOperatorId` (UAS-operatornummer bij
+het DG Luchtvaart) en `insurance` aan; lege velden worden niet getoond. De teksten zijn opgesteld op
+basis van hoe de site werkt, maar zijn **geen juridisch advies**: laat ze nalezen, zeker de
+bewaartermijnen en de lijst met verwerkers (vul je e-mailprovider en boekhouder aan).
+
 ## Nog te doen vóór livegang
 
-- [ ] **Offerteformulier koppelen.** Er is geen backend: bij verzenden opent het mailprogramma van de
-      bezoeker. Vervang in `src/scripts/main.js` het blok met `TODO bij livegang` door een POST naar
-      een formulierdienst of een eigen Route Handler (bv. `src/app/api/offerte/route.ts` met Resend).
+- [ ] **Resend instellen** (zie hierboven) en het formulier live testen.
+- [ ] **Google Analytics**: property aanmaken, `NEXT_PUBLIC_GA_ID` zetten, bewaartermijn op 14 maanden.
+- [ ] **Juridische teksten nalezen** en `legalForm`, `droneOperatorId`, `insurance` invullen.
 - [ ] **FAQ-antwoorden laten bevestigen** (`src/content/faq.ts`).
-- [ ] **Privacybeleid en bedrijfsgegevens**: de footerlinks staan op `#` (`SiteFooter.tsx`), ook de
-      consenttekst in het formulier verwijst ernaar.
-- [ ] **Cases**: toestemming vragen en daarna publiceren (zie hierboven). Case 02: naam van
-      opdrachtgever/aannemer is leesbaar op materieel en in de video.
-- [ ] **Search Console / Bing** instellen (zie SEO).
-- [ ] Optioneel: een echte video voor de hero-tegel (zie documentatie).
+- [ ] **Cases**: toestemming vragen en daarna publiceren (zie hierboven).
+- [ ] **Search Console / Bing** instellen (zie SEO) en de sitemap indienen.
+- [ ] **Google Bedrijfsprofiel** aanmaken met exact hetzelfde adres en telefoonnummer als op de site
+      (belangrijk voor lokaal zoeken), en de profiel-URL toevoegen aan `sameAs` in `src/config/site.ts`.
 
 ## Wat bewust niet in de repo zit
 

@@ -1,5 +1,6 @@
 import type { NavKey } from "@/config/site";
 import { PageScripts, type ScriptBundle } from "@/components/scripts/PageScripts";
+import { CookieConsent } from "@/components/consent/CookieConsent";
 import { Preloader } from "./Preloader";
 import { PreloaderFallback } from "./PreloaderFallback";
 import { SiteFooter } from "./SiteFooter";
@@ -35,6 +36,7 @@ export function PageShell({ preloaderLabel, current, ctaHref, scripts, afterMain
       {afterMain}
       <SiteFooter />
       <PageScripts bundle={scripts} />
+      <CookieConsent />
     </>
   );
 }

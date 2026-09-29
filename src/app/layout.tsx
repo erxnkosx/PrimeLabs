@@ -4,6 +4,7 @@ import "@/styles/fonts";
 import "./globals.css";
 import "@/styles/legacy/style.css";
 import "@/styles/mobile.css";
+import "@/styles/site-extra.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),

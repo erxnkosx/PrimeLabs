@@ -12,7 +12,7 @@ import { Results } from "@/components/sections/home/Results";
 import { Sectors } from "@/components/sections/home/Sectors";
 import { Cta } from "@/components/sections/home/Cta";
 
-const title = "Primelabs Drone Inspecties — Professionele drone-inspecties in België";
+const title = "Drone-inspecties voor daken, gevels en werven in België | Primelabs";
 const description =
   "Visuele drone-inspecties voor daken, gevels, werven en infrastructuur in België. Gerichte beelden, genummerde aandachtspunten en een overzichtelijk PDF-inspectierapport.";
 

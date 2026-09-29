@@ -157,6 +157,14 @@ export function RequestHero() {
               </div>
             </div>
             <form id="quote" noValidate>
+              {/* spamfilter: onzichtbaar voor mensen (honeypot) + tijdstip waarop het formulier geladen werd */}
+              <div className="form__hp" aria-hidden="true">
+                <label>
+                  Website
+                  <input type="text" name="website" tabIndex={-1} autoComplete="off" />
+                </label>
+              </div>
+              <input type="hidden" name="t" />
               <div className="fgrid">
                 <label className="field">
                   <span>
@@ -256,7 +264,11 @@ export function RequestHero() {
                 <span>
                   Ik ga ermee akkoord dat Primelabs mijn gegevens gebruikt om deze aanvraag te beantwoorden.{" "}
                   <span style={{ color: "var(--muted)" }}>
-                    (Het privacybeleid wordt hier gelinkt zodra het online staat.)
+                    Lees ons{" "}
+                    <a href="/privacybeleid" target="_blank" rel="noopener">
+                      privacybeleid
+                    </a>
+                    .
                   </span>
                 </span>
               </label>
@@ -296,12 +308,14 @@ export function RequestHero() {
                 <path d="m5 12.5 4.5 4.5L19 7" />
               </svg>
             </div>
-            <h3>Uw aanvraag staat klaar</h3>
-            <p>
+            <h3 id="doneTitle">Uw aanvraag staat klaar</h3>
+            <p id="doneText">
               Uw mailprogramma opent met onderstaande aanvraag naar <strong>info@primelabs.be</strong>. Opent
               er niets? Kopieer de tekst en mail of bel ons gerust.
             </p>
-            <div className="done__box" id="doneBox" />
+            <div id="doneBoxWrap">
+              <div className="done__box" id="doneBox" />
+            </div>
             <div className="done__row">
               {" "}
               <button className="btn btn--p" type="button" id="copyBtn">

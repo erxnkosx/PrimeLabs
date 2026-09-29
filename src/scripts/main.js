@@ -383,20 +383,55 @@
       };
     }
 
-    form.addEventListener('submit', function (e) {
-      e.preventDefault();
-      if (!validate()) return;
-      var m = compose();
+    /* verzenden via /api/offerte (Cloudflare Pages Function → Resend). Lukt dat niet,
+       dan valt het formulier terug op het mailprogramma van de bezoeker, zoals vroeger. */
+    var t0 = form.elements.t;
+    if (t0) t0.value = String(Date.now());
+    var sendBtn = form.querySelector('[type=submit]');
+    var doneTitle = $('#doneTitle'), doneText = $('#doneText'), doneBoxWrap = $('#doneBoxWrap');
+
+    function toon(ok, m) {
       if (box) box.textContent = 'Aan: info@primelabs.be\nOnderwerp: ' + m.subject + '\n\n' + m.body;
+      if (doneTitle) doneTitle.textContent = ok ? 'Bedankt, uw aanvraag is verstuurd' : 'Uw aanvraag staat klaar';
+      if (doneText) doneText.textContent = ok
+        ? 'We hebben uw aanvraag goed ontvangen en nemen zo snel mogelijk contact met u op. Hieronder vindt u een kopie.'
+        : 'Het rechtstreeks versturen lukte niet. Uw mailprogramma opent met onderstaande aanvraag naar info@primelabs.be. Opent er niets? Kopieer de tekst en mail of bel ons gerust.';
+      if (doneBoxWrap) doneBoxWrap.hidden = false;
       card.classList.add('done');
       var top = card.getBoundingClientRect().top + window.scrollY - 110;
       window.scrollTo({ top: top, behavior: 'smooth' });
-      /* TODO bij livegang: POST naar een eigen endpoint of formulierdienst.
-         Zonder backend openen we het mailprogramma van de bezoeker. */
+    }
+    function mailto(m) {
       setTimeout(function () {
         window.location.href = 'mailto:info@primelabs.be?subject=' +
           encodeURIComponent(m.subject) + '&body=' + encodeURIComponent(m.body);
       }, 350);
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (!validate()) return;
+      var m = compose();
+      var g = function (n) { var el = form.elements[n]; return el ? (el.value || '').trim() : ''; };
+      var data = {
+        naam: g('naam'), bedrijf: g('bedrijf'), email: g('email'), telefoon: g('telefoon'),
+        type: g('type'), adres: g('adres'), vraag: g('vraag'),
+        consent: !!(form.elements.consent && form.elements.consent.checked),
+        website: g('website'), t: Number(g('t')) || 0
+      };
+      if (sendBtn) { sendBtn.disabled = true; sendBtn.classList.add('is-bezig'); }
+      var klaar = function (ok) {
+        if (sendBtn) { sendBtn.disabled = false; sendBtn.classList.remove('is-bezig'); }
+        toon(ok, m);
+        if (ok) {
+          if (window.gtag) window.gtag('event', 'generate_lead', { form: 'offerte', inspectie: data.type });
+        } else mailto(m);
+      };
+      if (!window.fetch) return klaar(false);
+      fetch('/api/offerte', {
+        method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(data)
+      }).then(function (r) { return r.ok ? r.json() : { ok: false }; })
+        .then(function (r) { klaar(!!(r && r.ok)); }, function () { klaar(false); });
     });
 
     var copy = $('#copyBtn');
