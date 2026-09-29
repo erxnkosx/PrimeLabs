@@ -118,6 +118,8 @@ window.PL3D = (function () {
   function sizer(canvas, renderer, camera) {
     var rect = { w: 1, h: 1 };
     function fit() {
+      /* [Next.js] na een hot reload in `npm run dev` kan het oude canvas al uit de pagina zijn */
+      if (!canvas.isConnected || !canvas.parentNode) return;
       var w = canvas.clientWidth || canvas.parentNode.clientWidth;
       var h = canvas.clientHeight || canvas.parentNode.clientHeight;
       if (!w || !h) return;
