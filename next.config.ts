@@ -22,32 +22,40 @@ const securityHeaders = [
   { key: "Strict-Transport-Security", value: "max-age=31536000" },
 ];
 
+/*
+ * STATIC_EXPORT=1 → statische export naar out/ (Cloudflare Pages). Redirects en headers
+ * staan dan in public/_redirects en public/_headers, want next.config kan ze daar niet zetten.
+ */
+const isStaticExport = process.env.STATIC_EXPORT === "1";
+
 const nextConfig: NextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
   trailingSlash: false,
-  async redirects() {
-    return legacyRedirects.map(([source, destination]) => ({
-      source,
-      destination,
-      statusCode: 301 as const,
-    }));
-  },
-  async headers() {
-    return [
-      { source: "/:path*", headers: securityHeaders },
-      {
-        // Beelden, video en 3D-model: niet gehasht, dus lang cachen met revalidatie
-        // (wijzig je een bestand, geef het dan een nieuwe naam voor directe verversing).
-        source: "/assets/:path*",
-        headers: [{ key: "Cache-Control", value: "public, max-age=2592000, stale-while-revalidate=86400" }],
-      },
-      {
-        source: "/og/:path*",
-        headers: [{ key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" }],
-      },
-    ];
-  },
+  ...(isStaticExport
+    ? { output: "export" as const }
+    : {
+        async redirects() {
+          return legacyRedirects.map(([source, destination]) => ({
+            source,
+            destination,
+            statusCode: 301 as const,
+          }));
+        },
+        async headers() {
+          return [
+            { source: "/:path*", headers: securityHeaders },
+            {
+              source: "/assets/:path*",
+              headers: [{ key: "Cache-Control", value: "public, max-age=2592000, stale-while-revalidate=86400" }],
+            },
+            {
+              source: "/og/:path*",
+              headers: [{ key: "Cache-Control", value: "public, max-age=604800, stale-while-revalidate=86400" }],
+            },
+          ];
+        },
+      }),
 };
 
 export default nextConfig;
