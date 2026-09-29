@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 import { cases, lastModified, routes, SITE_URL } from "@/config/site";
-
+export const dynamic = "force-static";
 /**
  * /sitemap.xml — alleen indexeerbare pagina's. Cases verschijnen pas wanneer
  * `published: true` staat in src/config/site.ts.
