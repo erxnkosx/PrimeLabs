@@ -419,9 +419,10 @@ donkerste bladpixels ≥ 5:1); wit haalde daar 1,5:1.
   achter de lijn het polygoonmesh en ervoor nog de punten; tot slot de opmeting van het platte dak.
   Kleine onderdelen worden per soort samengevoegd tot één geometrie (155 draw calls). Dat knippen gebeurt met clipping planes (`localClippingEnabled`), die de scène
   elk frame naar de wereldruimte omzet.
-- **Werkwijze** — één scène met vijf fasen: locatiemarkering → afgesproken zones →
-  dronevlucht met scanvlak → genummerde aandachtspunten → opgeleverd dossier.
-  Camera, elementen en HUD volgen de stap waar u bent; hover of focus werkt ook.
+- **Werkwijze** — geen 3D-scène meer. De vijf stappen staan uitgeschreven in `src/content/werkwijze.ts`
+  en worden getoond als een stappenbalk die bovenaan blijft staan (voortgangslijn en actieve stap volgen
+  het scrollen, `ProcessRail.tsx`) en per stap drie kolommen: wat wij doen, wat u aanlevert en het
+  resultaat. Opmaak in `src/styles/werkwijze.css`. De pagina laadt geen three.js meer.
 - **Portfolio** — één case per dienst, met hetzelfde nummer: links de dienst (nummer,
   uitleg, link naar de dienstpagina), rechts een brede kaart met een echte dronefoto, een
   monospace statusbadge (`.case__tag`) en een link naar de uitgebreide case. 01: productiesite

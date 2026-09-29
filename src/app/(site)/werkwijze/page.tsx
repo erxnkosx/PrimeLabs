@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import "@/styles/werkwijze.css";
 import { PageShell } from "@/components/layout/PageShell";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { routes } from "@/config/site";
@@ -35,7 +36,7 @@ const structuredData = graph(
 export default function WerkwijzePage() {
   return (
     <>
-      <PageShell preloaderLabel="Werkwijze laden" current="werkwijze" scripts="scene">
+      <PageShell preloaderLabel="Werkwijze laden" current="werkwijze" scripts="basic">
         <Hero />
         <Steps />
         <Expectations />

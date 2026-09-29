@@ -1,0 +1,334 @@
+/* ==========================================================================
+   Werkwijze — de vijf stappen (/werkwijze#stappen)
+   Nieuwe sectie in de taal van het designsysteem (tokens uit legacy/style.css).
+   Per stap drie kolommen: wat wij doen, wat u aanlevert, resultaat.
+   ========================================================================== */
+
+.proc__head {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  align-items: end;
+  gap: clamp(24px, 5vw, 80px);
+  margin-bottom: clamp(36px, 4.5vw, 56px);
+}
+.proc__head .lead {
+  max-width: 46ch;
+}
+
+/* ---------- stappenbalk (blijft bovenaan staan) ------------------------ */
+.proc-rail {
+  --n: 5;
+  --gap: 8px;
+  --dot: 34px;
+  position: sticky;
+  top: calc(var(--nav-h) + 12px);
+  z-index: 20;
+  padding: 14px 16px 12px;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: rgba(255, 255, 255, 0.97);
+  -webkit-backdrop-filter: blur(16px) saturate(170%);
+  backdrop-filter: blur(16px) saturate(170%);
+  box-shadow: var(--shadow-1);
+}
+.proc-rail__list {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--n), minmax(0, 1fr));
+  gap: var(--gap);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* voortgangslijn van het eerste naar het laatste bolletje */
+.proc-rail__list::before,
+.proc-rail__list::after {
+  content: "";
+  position: absolute;
+  left: calc(6px + var(--dot) / 2);
+  top: calc(4px + var(--dot) / 2 - 1px);
+  width: calc((100% - (var(--n) - 1) * var(--gap)) / var(--n) * (var(--n) - 1) + (var(--n) - 1) * var(--gap));
+  height: 2px;
+  border-radius: 2px;
+  background: var(--line);
+}
+.proc-rail__list::after {
+  background: var(--lg-grad);
+  transform: scaleX(var(--p, 0));
+  transform-origin: left;
+  transition: transform 0.6s var(--out);
+}
+.proc-rail a {
+  display: block;
+  padding: 4px 6px 6px;
+  border-radius: 10px;
+  transition: background 0.3s var(--ease);
+}
+.proc-rail a:hover {
+  background: var(--bg-soft);
+}
+.proc-rail__n {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: var(--dot);
+  height: var(--dot);
+  border: 1px solid var(--line-2);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--brand);
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.66rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition:
+    background 0.4s var(--ease),
+    color 0.4s var(--ease),
+    box-shadow 0.4s var(--ease),
+    border-color 0.4s;
+}
+.proc-rail .is-klaar .proc-rail__n,
+.proc-rail .is-actief .proc-rail__n {
+  border-color: transparent;
+  background: var(--lg-grad);
+  color: #fff;
+}
+.proc-rail .is-actief .proc-rail__n {
+  box-shadow:
+    0 0 0 5px rgba(150, 47, 188, 0.16),
+    0 10px 22px -10px rgba(58, 7, 138, 0.6);
+}
+.proc-rail__txt {
+  display: block;
+  margin-top: 10px;
+}
+.proc-rail__txt b {
+  display: block;
+  font-family: "Inter Tight", "Inter", sans-serif;
+  font-size: 0.88rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  color: var(--ink-2);
+  transition: color 0.3s;
+}
+.proc-rail__txt span {
+  display: block;
+  margin-top: 3px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.55rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.proc-rail .is-actief .proc-rail__txt b,
+.proc-rail a:hover .proc-rail__txt b {
+  color: var(--brand);
+}
+
+/* ---------- de uitgewerkte stappen ------------------------------------- */
+.proc-list {
+  margin: clamp(28px, 3.5vw, 44px) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.proc-step {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 2fr);
+  gap: clamp(24px, 4vw, 64px);
+  padding: clamp(36px, 4.5vw, 60px) 0;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: calc(var(--nav-h) + 128px);
+}
+.proc-step:last-child {
+  border-bottom: 1px solid var(--line);
+}
+.proc-step__kop {
+  position: sticky;
+  top: calc(var(--nav-h) + 150px);
+  align-self: start;
+}
+.proc-step__badge {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.proc-step__n {
+  display: inline-grid;
+  place-items: center;
+  min-width: 44px;
+  height: 44px;
+  padding: 0 10px;
+  border-radius: 12px;
+  background: var(--lg-grad);
+  color: #fff;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  box-shadow: 0 14px 30px -16px rgba(58, 7, 138, 0.7);
+}
+.proc-step__ico {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--bg-soft);
+  color: var(--brand-2);
+}
+.proc-step__t {
+  margin-bottom: 12px;
+  font-size: clamp(1.4rem, 2.1vw, 1.8rem);
+  line-height: 1.12;
+  max-width: 14ch;
+}
+.proc-step__intro {
+  max-width: 34ch;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--muted);
+}
+.proc-step__grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  align-items: stretch;
+}
+.proc-col {
+  display: flex;
+  flex-direction: column;
+  padding: 22px 22px 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  background: #fff;
+  box-shadow: var(--shadow-1);
+}
+.proc-col__t {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 16px;
+  font-size: 0.98rem;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.proc-col__t svg {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  color: var(--brand-3);
+}
+.proc-col__list {
+  display: grid;
+  gap: 11px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.proc-col__list li {
+  position: relative;
+  padding-left: 18px;
+  font-size: 0.88rem;
+  line-height: 1.55;
+  color: var(--ink-2);
+}
+.proc-col__list li::before {
+  content: "";
+  position: absolute;
+  left: 1px;
+  top: 0.62em;
+  width: 6px;
+  height: 6px;
+  border-radius: 2px;
+  background: var(--lg-grad);
+}
+/* resultaat: wat u na deze stap in handen hebt */
+.proc-col--res {
+  border-color: transparent;
+  background:
+    radial-gradient(120% 90% at 80% 0%, #2a1466 0%, transparent 60%),
+    linear-gradient(165deg, #1f0d4a, #0a0424 78%);
+  box-shadow: var(--shadow-2);
+}
+.proc-col--res .proc-col__t {
+  color: #fff;
+}
+.proc-col--res .proc-col__t svg {
+  color: var(--brand-4);
+}
+.proc-col__res {
+  font-size: 0.98rem;
+  line-height: 1.55;
+  color: rgba(236, 228, 250, 0.92);
+}
+.proc-col__ms::before {
+  content: "✓ ";
+}
+.proc-col__ms {
+  align-self: flex-start;
+  margin-top: auto;
+  padding-top: 18px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.56rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-5);
+}
+
+/* ---------- responsief -------------------------------------------------- */
+@media (max-width: 1080px) {
+  .proc-step {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+  .proc-step__kop {
+    position: static;
+  }
+  .proc-step__t,
+  .proc-step__intro {
+    max-width: 52ch;
+  }
+}
+@media (max-width: 900px) {
+  .proc__head {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+  }
+  /* de balk scrolt horizontaal, de actieve stap schuift in beeld */
+  .proc-rail {
+    padding: 12px 10px 10px;
+  }
+  .proc-rail__list {
+    grid-template-columns: repeat(var(--n), 158px);
+    overflow-x: auto;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .proc-rail__list::-webkit-scrollbar {
+    display: none;
+  }
+  .proc-rail__list::before,
+  .proc-rail__list::after {
+    width: calc((var(--n) - 1) * (158px + var(--gap)));
+  }
+}
+@media (max-width: 760px) {
+  .proc-step__grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .proc-step {
+    scroll-margin-top: calc(var(--nav-h) + 112px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .proc-rail__list::after,
+  .proc-rail__n {
+    transition: none;
+  }
+}
