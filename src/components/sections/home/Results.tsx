@@ -60,51 +60,53 @@ export function Results() {
           </ol>
         </div>
         {/* CSS 3D dossier: vouwt open tijdens het scrollen */}
-        <div className="stack" aria-hidden="true">
-          <div className="stack__i">
-            <div className="sheet sheet--1">
-              <div className="sheet__hd">
-                <span>01 · Overzicht</span>
-                <span>JPG</span>
+        <div className="stack-box">
+          <div className="stack" aria-hidden="true">
+            <div className="stack__i">
+              <div className="sheet sheet--1">
+                <div className="sheet__hd">
+                  <span>01 · Overzicht</span>
+                  <span>JPG</span>
+                </div>
+                <div className="tiles">
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                  <i />
+                </div>
+                <div className="rows">
+                  <u />
+                  <u />
+                </div>
               </div>
-              <div className="tiles">
-                <i />
-                <i />
-                <i />
-                <i />
-                <i />
-                <i />
+              <div className="sheet sheet--2">
+                <div className="sheet__hd">
+                  <span>02 · Aandachtspunten</span>
+                  <span>01–03</span>
+                </div>
+                <div className="tiles">
+                  <i />
+                  <i />
+                  <i />
+                </div>
+                <div className="rows">
+                  <u />
+                  <u />
+                  <u />
+                  <u />
+                </div>
               </div>
-              <div className="rows">
-                <u />
-                <u />
-              </div>
-            </div>
-            <div className="sheet sheet--2">
-              <div className="sheet__hd">
-                <span>02 · Aandachtspunten</span>
-                <span>01–03</span>
-              </div>
-              <div className="tiles">
-                <i />
-                <i />
-                <i />
-              </div>
-              <div className="rows">
-                <u />
-                <u />
-                <u />
-                <u />
-              </div>
-            </div>
-            <div className="sheet sheet--3">
-              <div className="sheet__hd">
-                <span>03 · Rapport</span>
-                <span>PDF</span>
-              </div>
-              <div className="pdf">
-                <b>Inspectiedossier</b>
-                <span>PRIMELABS · 2026</span>
+              <div className="sheet sheet--3">
+                <div className="sheet__hd">
+                  <span>03 · Rapport</span>
+                  <span>PDF</span>
+                </div>
+                <div className="pdf">
+                  <b>Inspectiedossier</b>
+                  <span>PRIMELABS · 2026</span>
+                </div>
               </div>
             </div>
           </div>

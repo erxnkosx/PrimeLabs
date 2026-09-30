@@ -454,25 +454,50 @@ body.ready .hs-stage{transition:opacity .6s var(--ease)}
   }
   .hero--scene .hs-video__thumb{width:92px}
 }
-/* [mobiel] foto gecentreerd op het gebouw en de drie aandachtspunten zichtbaar
-   als compacte labels naast hun punt (de lange lijnen van desktop passen niet) */
+/* [mobiel] dezelfde compositie als op desktop, verkleind: het hele gebouw en de
+   drone in beeld, Dakbedekking links boven het dak en Afvoeren en Gevelzones
+   rechts, elk met icoon, titel en ondertitel en met dezelfde lijnen (horizontaal
+   naar de knik, dan recht omlaag naar het punt). De foto toont hetzelfde deel
+   van de opname als desktop (10 %–94 % van de breedte); de resultatenbalk staat
+   eronder, zodat hij het gebouw niet bedekt. Alle maten schalen met de
+   schermbreedte (basis 390 px), dus op 320 en 430 px blijft alles op zijn plek. */
 @media (max-width:640px){
-  .hs-scene{--hs-fx:52%}
+  .hero--scene{--hs-m-h:calc(100vw / .84 / 1.5004)}   /* hoogte van de foto */
+  .hs-scene{
+    --hs-fx:62.5%;--hs-fy:0%;
+    height:auto;padding-top:var(--hs-m-h);container-type:inline-size;
+  }
+  .hs-photo{inset:0 0 auto;height:var(--hs-m-h)}
+  .hs-stage{width:calc(100cqw / .84)}
+  .hs-lead,.hs-knee{display:block}
+  .hs-pin{scale:.8}
+  .hs-knee{scale:.8}
+  /* de kaart zelf: zelfde glas, icoon en tekst als desktop, in em zodat ze meeschaalt */
   .hero--scene .hs-call .hs-tag{
-    top:var(--ty);left:var(--tx);right:auto;
-    width:max-content;height:auto;max-width:none;min-height:0;margin:0;
-    padding:5px 11px 5px 5px;gap:7px;border-radius:10px;
-    overflow:visible;clip-path:none;white-space:nowrap;
-    box-shadow:0 14px 30px -18px rgba(8,3,26,.9),inset 0 0 0 1px rgba(196,140,236,.28),inset 0 1px 0 rgba(255,255,255,.07);
+    font-size:calc(100vw * .0269);
+    top:var(--ky);translate:0 -50%;
+    width:max-content;height:auto;min-height:0;max-width:none;margin:0;
+    padding:.48em .9em .48em .48em;gap:.62em;border-radius:1em;
+    overflow:visible;clip-path:none;white-space:normal;
+    box-shadow:0 1.6em 3.2em -1.8em rgba(8,3,26,.9),inset 0 0 0 1px rgba(196,140,236,.26),inset 0 1px 0 rgba(255,255,255,.07);
     -webkit-backdrop-filter:blur(12px) saturate(60%) brightness(.8);backdrop-filter:blur(12px) saturate(60%) brightness(.8);
     animation:cardIn .95s var(--out) both;animation-delay:var(--in,.7s);
   }
-  .hero--scene .hs-tag__ico{width:24px;height:24px;border-radius:7px}
-  .hero--scene .hs-tag__ico svg{width:13px;height:13px}
-  .hero--scene .hs-tag b{font-size:.74rem}
-  .hs-stage--ui .hs-call:nth-child(1) .hs-tag{translate:-18px calc(-100% - 14px)}  /* Dakbedekking: boven het punt */
-  .hs-stage--ui .hs-call:nth-child(2) .hs-tag{translate:calc(-100% - 14px) -50%}   /* Afvoeren: links van het punt */
-  .hs-stage--ui .hs-call:nth-child(3) .hs-tag{translate:calc(-100% - 14px) -50%}   /* Gevelzones: links van het punt, boven de balk */
+  .hero--scene .hs-tag__ico{width:2.3em;height:2.3em;border-radius:.7em}
+  .hero--scene .hs-tag__ico svg{width:1.25em;height:1.25em}
+  .hero--scene .hs-tag b{font-size:1em;line-height:1.2}
+  .hero--scene .hs-tag small{display:block;margin-top:.2em;font-size:.8em;line-height:1.25;max-width:7.4em}
+  .hero--scene .hs-call--l .hs-tag small{max-width:none;white-space:nowrap}   /* "Inspectie in detail" op één regel, zoals desktop */
+  /* posities: desktopwaarden, de rechterkaarten 3,5 % dichter bij het gebouw */
+  /* !important: de desktopwaarden staan inline op het element */
+  .hs-stage--ui .hs-call:nth-child(1){--ax:38.2% !important}
+  .hs-stage--ui .hs-call:nth-child(2){--ax:68.5% !important;--ky:37% !important}
+  .hs-stage--ui .hs-call:nth-child(3){--ax:68.5% !important}
+  .hs-call--l .hs-tag{right:calc(100% - var(--ax));left:auto}
+  .hs-call--r .hs-tag{left:var(--ax)}
+  /* de balk onder de foto, die er licht in overloopt zoals op desktop */
+  .hs-bar{position:relative;left:auto;right:auto;bottom:auto;margin:calc(var(--hs-m-h) * -.1) 14px 0}
+  .hs-rule{padding-top:22px}
 }
 
 @media (prefers-reduced-motion:reduce){

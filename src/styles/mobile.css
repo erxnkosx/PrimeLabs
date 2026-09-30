@@ -104,33 +104,67 @@
   }
 }
 
-/* ---------- home: "Het resultaat" — de drie bladen gecentreerd ----------- */
-/* de linkermarge was een vaste -150px bij een blad van 56 %: op een telefoon
-   schoof de stapel naar links en viel het eerste blad buiten beeld */
-@media (max-width: 760px) {
+/* ---------- home: "Het resultaat" — exact de desktopstapel, verkleind ------ */
+/* Alle maten van de desktopweergave (1440 px) omgerekend naar cqw van de
+   stapel, zodat bladen, kanteling, perspectief en tekst in dezelfde verhouding
+   staan als op desktop, gewoon kleiner (basis 1140 px: de stapel vult zo ~90 %
+   van de breedte). */
+.stack-box {
+  container-type: inline-size;
+}
+@media (max-width: 900px) {
   .stack {
-    height: 300px;
-    margin-top: 34px;
-    perspective: 1200px;
-  }
-  .stack__i {
-    transform: rotateX(calc(36deg - var(--p, 0) * 16deg)) rotateZ(calc(-9deg + var(--p, 0) * 6deg))
-      scale(0.92);
+    height: 29.82cqw;
+    margin-top: clamp(30px, 6.93cqw, 60px);
+    perspective: 149.1cqw;
   }
   .sheet {
-    width: min(54%, 250px);
-    margin-left: calc(min(54%, 250px) / -2);
+    width: 28.95cqw;
+    margin-left: -18.41cqw;
+    padding: 1.579cqw;
+    border-radius: 1.053cqw;
+    box-shadow:
+      0 3.86cqw 5.61cqw -3.51cqw rgba(0, 0, 0, 0.92),
+      inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    transform: translate3d(
+      calc(var(--p, 0) * var(--sx2) * 1%),
+      calc(var(--p, 0) * var(--sy) * 1%),
+      calc(var(--z) * 0.0877cqw)
+    );
   }
   .sheet--1 {
-    --sx2: -36;
-    --sy: 26;
+    --sx2: -108;
+    --sy: 16;
   }
   .sheet--3 {
-    --sx2: 36;
-    --sy: -26;
+    --sx2: 108;
+    --sy: -16;
   }
   .sheet__hd {
-    font-size: 0.46rem;
+    font-size: 0.674cqw;
+    margin-bottom: 0.965cqw;
+  }
+  .tiles {
+    gap: 0.526cqw;
+  }
+  .tiles i {
+    border-radius: 0.439cqw;
+  }
+  .rows {
+    gap: 0.614cqw;
+    margin-top: 0.965cqw;
+  }
+  .rows u {
+    height: 0.351cqw;
+  }
+  .pdf {
+    gap: 0.702cqw;
+  }
+  .pdf b {
+    font-size: 2.105cqw;
+  }
+  .pdf span {
+    font-size: 0.646cqw;
   }
 }
 
