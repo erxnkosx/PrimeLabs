@@ -564,8 +564,10 @@
     });
   };
 
-  var sw = 1.26, sd = 1.12;
-  var sxc = bx - 0.31, szc = bz - 0.24;
+  /* bovenste vloer: over de volle breedte op de vier kolommen (was een los kwart dat
+     aan één kolom leek te hangen); ze komt per bezoek verder tevoorschijn */
+  var sw = bw - 0.12, sd = bd - 0.12;
+  var sxc = bx, szc = bz;
   var slab5 = kit.solid(sw, 0.06, sd, fWarm, ePale, 0.9);
   slab5.position.set(sxc, 2.31, szc);
   collect(slab5);
@@ -758,11 +760,19 @@
   setPose(POSE[0]);
   g.updateMatrixWorld(true);   /* anders staan de brokken nog op hun lokale plek */
 
+  /* de werfhekken: geen brokken in of tegen het hek */
+  var hekBoxen = [fenceA, fenceB].map(function (f) {
+    f.updateWorldMatrix(true, true);
+    return new T.Box3().setFromObject(f).expandByScalar(0.1);
+  });
   var vrij = function (obj) {
     obj.updateWorldMatrix(true, false);
     var bb = new T.Box3().setFromObject(obj), q;
     for (q = 0; q < sweepBoxes.length; q++) {
       if (sweepBoxes[q].intersectsBox(bb)) return false;
+    }
+    for (q = 0; q < hekBoxen.length; q++) {
+      if (hekBoxen[q].intersectsBox(bb)) return false;
     }
     return true;
   };

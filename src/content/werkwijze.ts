@@ -74,7 +74,7 @@ export const processtappen: ProcesStap[] = [
     wij: [
       "Veilige uitvoering binnen de geldende vluchtmogelijkheden",
       "Systematisch vastleggen: eerst overzicht en context, dan detail",
-      "Bij werfopvolging: telkens vanuit dezelfde GPS-standpunten",
+      "Bij werfopvolging: telkens volgens hetzelfde ingestelde vliegpatroon",
     ],
     u: ["Het aanspreekpunt is bereikbaar tijdens de opname", "Een vrije plek om op te stijgen, in overleg"],
     resultaat: "Originele beelden in hoge resolutie van alle afgesproken zones.",

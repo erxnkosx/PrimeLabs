@@ -103,3 +103,45 @@
     font-size: 0.58rem;
   }
 }
+
+/* ---------- home: "Het resultaat" — de drie bladen gecentreerd ----------- */
+/* de linkermarge was een vaste -150px bij een blad van 56 %: op een telefoon
+   schoof de stapel naar links en viel het eerste blad buiten beeld */
+@media (max-width: 760px) {
+  .stack {
+    height: 300px;
+    margin-top: 34px;
+    perspective: 1200px;
+  }
+  .stack__i {
+    transform: rotateX(calc(36deg - var(--p, 0) * 16deg)) rotateZ(calc(-9deg + var(--p, 0) * 6deg))
+      scale(0.92);
+  }
+  .sheet {
+    width: min(54%, 250px);
+    margin-left: calc(min(54%, 250px) / -2);
+  }
+  .sheet--1 {
+    --sx2: -36;
+    --sy: 26;
+  }
+  .sheet--3 {
+    --sx2: 36;
+    --sy: -26;
+  }
+  .sheet__hd {
+    font-size: 0.46rem;
+  }
+}
+
+/* ---------- roze kaders (Duidelijke scope, Referentiebeleid) -------------- */
+/* de gloed in de hoek had op smalle schermen een harde verticale rand */
+@media (max-width: 900px) {
+  .panel::before {
+    right: -35%;
+    top: -25%;
+    width: 120%;
+    height: 90%;
+    background: radial-gradient(closest-side, rgba(150, 47, 188, 0.15), transparent);
+  }
+}

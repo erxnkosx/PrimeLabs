@@ -92,8 +92,8 @@ export function CasesByService() {
             <span className="svc__n">02</span>
             <h3>Periodieke werfopvolging</h3>
             <p>
-              Vaste intervallen en identieke GPS-standpunten, van nulmeting tot eindopname: een objectieve
-              visuele tijdlijn van de werf.
+              Vaste momenten en telkens hetzelfde ingestelde vliegpatroon, van nulmeting tot eindopname: een
+              overzichtelijke visuele tijdlijn van de werf.
             </p>
             <a className="tlink tlink--b" href="/diensten#d2">
               Over deze dienst{" "}

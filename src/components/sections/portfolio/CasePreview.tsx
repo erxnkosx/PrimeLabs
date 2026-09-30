@@ -129,7 +129,7 @@ export function CasePreview() {
               <span>Overzicht</span>
             </div>
             <div className="vstat">
-              <b>02</b>
+              <b>04</b>
               <span>Aandachtspunten</span>
             </div>
             <div className="vstat">

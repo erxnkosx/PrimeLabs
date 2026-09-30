@@ -86,8 +86,8 @@ export function Services() {
             </div>
             <h3>Periodieke werfopvolging</h3>
             <p>
-              Van nulmeting tot oplevering: vaste intervallen, telkens vanuit dezelfde standpunten en
-              camerahoeken, zodat de voortgang objectief te vergelijken is.
+              Van nulmeting tot oplevering: beelden op vaste momenten, volgens hetzelfde ingestelde
+              vliegpatroon, zodat u de voortgang eenvoudig kunt vergelijken.
             </p>
             <a className="tlink tlink--b card__link" href="/diensten#d2">
               Meer informatie{" "}

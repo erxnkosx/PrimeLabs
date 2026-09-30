@@ -446,6 +446,35 @@ body.ready .hs-stage{transition:opacity .6s var(--ease)}
   .hero--scene .hs-stat span{font-size:.64rem;hyphens:auto}
 }
 
+/* [mobiel] videotegel onder de resultatenbalk, over de volle breedte */
+@media (max-width:900px){
+  .hero--scene .hs-video{
+    display:flex;grid-column:1 / -1;gap:12px;margin-top:6px;padding:8px 10px;
+    border-top:1px solid rgba(183,105,211,.16);border-radius:0 0 13px 13px;
+  }
+  .hero--scene .hs-video__thumb{width:92px}
+}
+/* [mobiel] foto gecentreerd op het gebouw en de drie aandachtspunten zichtbaar
+   als compacte labels naast hun punt (de lange lijnen van desktop passen niet) */
+@media (max-width:640px){
+  .hs-scene{--hs-fx:52%}
+  .hero--scene .hs-call .hs-tag{
+    top:var(--ty);left:var(--tx);right:auto;
+    width:max-content;height:auto;max-width:none;min-height:0;margin:0;
+    padding:5px 11px 5px 5px;gap:7px;border-radius:10px;
+    overflow:visible;clip-path:none;white-space:nowrap;
+    box-shadow:0 14px 30px -18px rgba(8,3,26,.9),inset 0 0 0 1px rgba(196,140,236,.28),inset 0 1px 0 rgba(255,255,255,.07);
+    -webkit-backdrop-filter:blur(12px) saturate(60%) brightness(.8);backdrop-filter:blur(12px) saturate(60%) brightness(.8);
+    animation:cardIn .95s var(--out) both;animation-delay:var(--in,.7s);
+  }
+  .hero--scene .hs-tag__ico{width:24px;height:24px;border-radius:7px}
+  .hero--scene .hs-tag__ico svg{width:13px;height:13px}
+  .hero--scene .hs-tag b{font-size:.74rem}
+  .hs-stage--ui .hs-call:nth-child(1) .hs-tag{translate:-18px calc(-100% - 14px)}  /* Dakbedekking: boven het punt */
+  .hs-stage--ui .hs-call:nth-child(2) .hs-tag{translate:calc(-100% - 14px) -50%}   /* Afvoeren: links van het punt */
+  .hs-stage--ui .hs-call:nth-child(3) .hs-tag{translate:calc(-100% - 14px) -50%}   /* Gevelzones: links van het punt, boven de balk */
+}
+
 @media (prefers-reduced-motion:reduce){
   .hs-img,.hs-svg,.hs-call{animation:none;transform:none}
   body.ready .hs-stage{transition:none}

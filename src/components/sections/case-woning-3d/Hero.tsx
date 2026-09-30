@@ -71,11 +71,11 @@ export function Hero() {
         <figure className="sc-hero__visual rv rv--s" data-d="180">
           <div className="sc-hero__visual-frame cw-hero-frame">
             <img
-              src="/assets/img/woning-case/model-poster.webp"
-              srcSet="/assets/img/woning-case/model-poster-960.webp 960w, /assets/img/woning-case/model-poster.webp 1600w"
+              src="/assets/img/woning-case/model-hero.webp"
+              srcSet="/assets/img/woning-case/model-hero-800.webp 800w, /assets/img/woning-case/model-hero.webp 1300w"
               sizes="(max-width: 900px) 100vw, 50vw"
-              width="1600"
-              height="1000"
+              width="1300"
+              height="813"
               fetchPriority="high"
               alt="Render uit het 3D-model: een woning met platte daken, een terras en een lange tuin met overkapping"
             />
@@ -85,8 +85,8 @@ export function Hero() {
             </span>
           </div>
           <figcaption>
-            Een beeld rechtstreeks uit het 3D-model, zonder nabewerking. De straat, de oprit en de tuinen van
-            de buren zijn weggeknipt.
+            Een beeld rechtstreeks uit het 3D-model; alleen de lege achtergrond is weggelaten. De straat, de
+            oprit en de tuinen van de buren zijn weggeknipt.
           </figcaption>
         </figure>
       </div>

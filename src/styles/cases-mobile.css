@@ -27,3 +27,47 @@
     font-size: 0.58rem;
   }
 }
+
+/* case 01 — technisch inspectierapport: vijf kenmerken in een raster.
+   Het laatste kenmerk stond alleen op een rij met een leeg vak ernaast, waardoor
+   de lijnen van het raster niet meer sloten. Het vult nu de rij. */
+@media (max-width: 820px) {
+  .sc-report-mini__specs div:nth-child(5) {
+    grid-column: span 2;
+  }
+}
+@media (max-width: 560px) {
+  .sc-report-mini__specs div:nth-child(5) {
+    grid-column: 1 / -1;
+    border-left: 0;
+  }
+}
+
+/* case 02 — video en kaart ernaast even hoog: het onderschrift hangt onder de
+   video in plaats van de kolom te verlengen (anders werd de kaart hoger) */
+@media (min-width: 1051px) {
+  .ww-video {
+    padding-bottom: 42px;
+  }
+  .ww-video__frame {
+    position: relative;
+  }
+  .ww-video__frame figcaption {
+    position: absolute;
+    top: 100%;
+    left: 2px;
+    right: 2px;
+  }
+}
+
+/* case 03 — render zonder zwarte achtergrond: de woning staat vrij op een zachte
+   paarse gloed in plaats van in een donker vlak (model-hero.webp heeft transparantie) */
+.cw-hero-frame {
+  background:
+    radial-gradient(70% 75% at 58% 52%, rgba(126, 64, 214, 0.34), transparent 72%),
+    linear-gradient(160deg, #221541, #140c2b);
+}
+.cw-hero-frame img {
+  object-fit: cover;
+  object-position: 60% 50%;
+}

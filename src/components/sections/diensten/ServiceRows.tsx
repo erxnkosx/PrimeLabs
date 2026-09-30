@@ -61,33 +61,33 @@ export function ServiceRows() {
               Visuele dak- en gevelinspecties
             </h2>
             <p>
-              Een veilige, gedetailleerde inspectie van de volledige gebouwschil. We brengen moeilijk
-              bereikbare dak- en gevelzones haarscherp in kaart zonder dure stellingen, hoogtewerkers of
-              risicovolle dakbetreding.
+              We brengen dak- en geveldelen gedetailleerd in beeld, ook waar ze vanaf de grond moeilijk te
+              beoordelen zijn. Zo krijgt u een duidelijk overzicht van zichtbare aandachtspunten, zonder het
+              dak te betreden.
             </p>
             <ul className="feat">
               <li>
                 <span>
-                  <b>Dakbedekking &amp; technieken:</b> Controle van roofing, EPDM, pannen, dakdoorvoeren en
-                  visuele status van zonnepanelen en HVAC-installaties.
+                  <b>Dakbedekking en installaties:</b> Visuele controle van dakpannen, roofing, EPDM,
+                  dakdoorvoeren en de zichtbare staat van zonnepanelen en HVAC-installaties.
                 </span>
               </li>
               <li>
                 <span>
-                  <b>Gevels &amp; aansluitingen:</b> Detectie van scheurvorming, vorstschade, loszittend
-                  voegwerk, lateien en zink- of loodaansluitingen.
+                  <b>Gevels en aansluitingen:</b> Vastlegging van zichtbare scheuren, vorstschade, loszittend
+                  voegwerk en aandachtspunten aan gevel- en dakaansluitingen.
                 </span>
               </li>
               <li>
                 <span>
-                  <b>Schadevaststelling &amp; preventie:</b> Objectieve, gedateerde vaststelling na
-                  stormschade of als periodiek preventief onderhoud.
+                  <b>Schadevaststelling en periodieke controle:</b> Gedateerde beelden van zichtbare schade,
+                  bijvoorbeeld na een storm, of voor de opvolging van een gebouw doorheen de tijd.
                 </span>
               </li>
               <li>
                 <span>
-                  <b>Inclusief technisch inspectierapport (PDF):</b> Elk aandachtspunt genummerd met detail-
-                  en overzichtsfoto’s, exacte locatieverwijzing en concrete toelichting.
+                  <b>Visueel inspectierapport (PDF):</b> Genummerde aandachtspunten met overzichts- en
+                  detailfoto’s, een aanduiding van de locatie en een concrete toelichting.
                 </span>
               </li>
             </ul>
@@ -98,7 +98,7 @@ export function ServiceRows() {
             <div
               className="view svc-row__view"
               role="img"
-              aria-label="3D-weergave: een werf in uitvoering waarrond de drone een vaste, gloeiende vliegroute langs acht GPS-standpunten volgt"
+              aria-label="3D-weergave: een werf in uitvoering waarrond de drone een vast ingesteld vliegpatroon langs acht waypoints volgt"
             >
               <canvas id="canvas-d2" aria-hidden="true" />
               <span className="corner tl" />
@@ -149,33 +149,34 @@ export function ServiceRows() {
               Periodieke werfopvolging
             </h2>
             <p>
-              Behoud continue controle over de voortgang, planning en logistiek van uw bouwproject. Door
-              periodiek vanuit identieke GPS-standpunten te vliegen, ontstaat een objectieve en betrouwbare
-              visuele tijdlijn.
+              Volg de voortgang van uw bouwproject met beelden op vaste momenten. Door telkens hetzelfde
+              ingestelde vliegpatroon met waypoints te gebruiken, ontstaat een overzichtelijke visuele
+              tijdlijn van de verschillende bouwfases.
             </p>
             <ul className="feat">
               <li>
                 <span>
-                  <b>Nulmeting &amp; plaatsbeschrijving:</b> Gedetailleerde vastlegging van de omgeving,
-                  openbare wegen en aanpalende percelen vóór aanvang der werken.
+                  <b>Nulmeting en omgevingsopname:</b> Gedateerde beelden van de werf, de openbare weg en de
+                  zichtbare omgeving vóór de start van de werken.
                 </span>
               </li>
               <li>
                 <span>
-                  <b>Herhaalbare GPS-vlieglijnen:</b> Geautomatiseerde vluchten garanderen exact vergelijkbare
-                  standpunten doorheen de verschillende bouwfases.
+                  <b>Herhaalbare waypointvluchten:</b> Bij opeenvolgende bezoeken vliegen we volgens hetzelfde
+                  vooraf ingestelde vliegpatroon. Dat levert beelden vanuit zoveel mogelijk vergelijkbare
+                  standpunten op.
                 </span>
               </li>
               <li>
                 <span>
-                  <b>Werflogistiek &amp; veiligheid:</b> Direct overzicht over materiaalstockage,
-                  werfcirculatie, grondverzet en kraanposities.
+                  <b>Werfinrichting en voortgang:</b> Overzicht van de bouwfases, materiaalopslag,
+                  bereikbaarheid en de zichtbare inrichting van de werf.
                 </span>
               </li>
               <li>
                 <span>
-                  <b>Rapportage &amp; overleg:</b> Direct bruikbaar beeldmateriaal voor werfvergaderingen,
-                  communicatie met de bouwheer en investeerdersdossiers.
+                  <b>Rapportage en overleg:</b> Geordend beeldmateriaal voor werfvergaderingen, communicatie
+                  met de bouwheer en documentatie van de voortgang.
                 </span>
               </li>
             </ul>

@@ -148,8 +148,8 @@ window.PL3D = (function () {
     var scene = new T.Scene();
     scene.fog = new T.Fog(0x0a0520, 9, 21);
     var camera = new T.PerspectiveCamera(34, 1, 0.1, 60);
-    camera.position.set(6.4, 4.4, 7.4);
-    camera.lookAt(0, 0.85, 0);
+    camera.position.set(7.4, 5.0, 8.6);
+    camera.lookAt(-0.4, 0.75, 0);
     var rnd = renderer(canvas);
     var rect = sizer(canvas, rnd, camera);
     lights(scene);
@@ -163,47 +163,122 @@ window.PL3D = (function () {
     var floor = glowPlane(26, 26, 0x241058, 0.05); floor.rotation.x = -Math.PI / 2; floor.position.y = -0.01;
     world.add(floor);
 
-    /* building */
-    var b = new T.Group(); b.position.y = 0.0; world.add(b);
-    var main = solid(3.5, 1.5, 2.5, 0x120830, 0x962fbc, 0.9); main.position.y = 0.75; b.add(main);
-    var roof = solid(3.62, 0.08, 2.62, 0x1a0b40, 0xb769d3, 0.95); roof.position.y = 1.54; b.add(roof);
-    var annex = solid(1.5, 0.95, 1.35, 0x120830, 0x962fbc, 0.75); annex.position.set(-2.3, 0.475, 0.5); b.add(annex);
-    var annexRoof = solid(1.6, 0.06, 1.45, 0x1a0b40, 0xb769d3, 0.9); annexRoof.position.set(-2.3, 0.98, 0.5); b.add(annexRoof);
-    var hvac = solid(0.55, 0.3, 0.55, 0x1e1048, 0xd6a5e9, 0.9); hvac.position.set(0.95, 1.73, -0.6); b.add(hvac);
-    var hvac2 = solid(0.38, 0.22, 0.38, 0x1e1048, 0xd6a5e9, 0.8); hvac2.position.set(-0.75, 1.69, 0.72); b.add(hvac2);
-    var pipeGeo = new T.CylinderGeometry(0.09, 0.09, 0.5, 14);
+    /* ---- woning (twee bouwlagen, plat dak) + aangebouwde garage (zadeldak) ----
+       [portfolio] schematische voorbeeldopname met vier genummerde aandachtspunten */
+    var b = new T.Group(); world.add(b);
+    var HX = 0.35, HZ = -0.1, HW = 3.2, HH = 1.6, HD = 2.4;          /* woning */
+    var GX = -2.0, GZ = 0.15, GW = 1.5, GH = 0.9, GD = 1.9;          /* garage */
+    var main = solid(HW, HH, HD, 0x120830, 0x962fbc, 0.9); main.position.set(HX, HH / 2, HZ); b.add(main);
+    /* plat dak: dakrand rondom en een lichte dakplaat */
+    var par = parapet(HW, HD, 0.14, 0.08, 0x1a0b40, 0xb769d3); par.position.set(HX, HH, HZ); b.add(par);
+    var roofGlow = glowPlane(HW - 0.2, HD - 0.2, 0x5342d7, 0.1); roofGlow.rotation.x = -Math.PI / 2;
+    roofGlow.position.set(HX, HH + 0.012, HZ); b.add(roofGlow);
+    /* twee rijen zonnepanelen */
+    var sol1 = solar(4, 0.42, 0.3, 0.06, 0.42, 0xd6a5e9); sol1.position.set(HX - 0.25, HH, HZ - 0.55); b.add(sol1);
+    var sol2 = solar(4, 0.42, 0.3, 0.06, 0.42, 0xd6a5e9); sol2.position.set(HX - 0.25, HH, HZ - 0.05); b.add(sol2);
+    /* lichtkoepel, technische kast en een dakdoorvoer */
+    var sky = solid(0.46, 0.12, 0.46, 0x1e1048, 0xd6a5e9, 0.9); sky.position.set(HX + 1.05, HH + 0.06, HZ + 0.62); b.add(sky);
+    var skyGlow = glowPlane(0.36, 0.36, 0xd6a5e9, 0.35); skyGlow.rotation.x = -Math.PI / 2;
+    skyGlow.position.set(HX + 1.05, HH + 0.125, HZ + 0.62); b.add(skyGlow);
+    var hvac = solid(0.5, 0.28, 0.42, 0x1e1048, 0xd6a5e9, 0.9); hvac.position.set(HX - 1.05, HH + 0.14, HZ + 0.62); b.add(hvac);
+    var pipeGeo = new T.CylinderGeometry(0.06, 0.06, 0.34, 14);
     var pipe = new T.Mesh(pipeGeo, new T.MeshStandardMaterial({ color: 0x201048, roughness: 0.85 }));
-    pipe.position.set(1.45, 1.83, 0.55); b.add(pipe);
-    var pipeEdge = edges(pipeGeo, 0xd6a5e9, 0.5);
-    pipeEdge.position.copy(pipe.position); b.add(pipeEdge);
-    /* facade ribs for depth */
-    for (var i = -1; i <= 1; i++) {
-      var rib = glowPlane(0.02, 1.3, 0x6b0a93, 0.22);
-      rib.position.set(i * 1.1, 0.78, 1.262); b.add(rib);
+    pipe.position.set(HX + 1.2, HH + 0.17, HZ - 0.8); b.add(pipe);
+    var pipeEdge = edges(pipeGeo, 0xd6a5e9, 0.5); pipeEdge.position.copy(pipe.position); b.add(pipeEdge);
+    /* dakafvoer in de hoek + regenpijp langs de gevel */
+    var DRX = HX + HW / 2 - 0.16, DRZ = HZ + HD / 2 - 0.16;
+    var drain = glowPlane(0.14, 0.14, 0xf1e4fb, 0.5); drain.rotation.x = -Math.PI / 2;
+    drain.position.set(DRX, HH + 0.014, DRZ); b.add(drain);
+    var dp = pipe3(0.035, HH, HX + HW / 2 + 0.04, HH / 2, HZ + HD / 2 - 0.16); b.add(dp);
+    /* voorgevel: ramen, voordeur met luifel; zijgevel: ramen */
+    var wF = windowGrid(4, 2, 0.42, 0.34, 0.26, 0.26, HD / 2 + 0.02, 0, 0xd6a5e9, 0.55);
+    wF.position.set(HX + 0.25, 0.86, HZ); b.add(wF);
+    var door = glowPlane(0.34, 0.62, 0xd6a5e9, 0.22); door.position.set(HX - 1.15, 0.31, HZ + HD / 2 + 0.012); b.add(door);
+    var canopy = solid(0.62, 0.04, 0.34, 0x1a0b40, 0xb769d3, 0.8); canopy.position.set(HX - 1.15, 0.7, HZ + HD / 2 + 0.17); b.add(canopy);
+    var wS = windowGrid(3, 2, 0.4, 0.34, 0.3, 0.26, HW / 2 + 0.02, Math.PI / 2, 0xd6a5e9, 0.45);
+    wS.position.set(HX, 0.86, HZ); b.add(wS);
+    /* een scheur in de voorgevel (aandachtspunt 03) */
+    var CRX = HX - 0.55, CRZ = HZ + HD / 2 + 0.014;
+    b.add(crack([[CRX - 0.05, 1.3, CRZ], [CRX + 0.03, 1.18, CRZ], [CRX - 0.02, 1.05, CRZ], [CRX + 0.06, 0.92, CRZ]], 0xf1e4fb, 0.018));
+
+    /* garage: wanden, zadeldak met nok van voor naar achter, sectionaalpoort, dakgoten */
+    var gar = solid(GW, GH, GD, 0x120830, 0x962fbc, 0.8); gar.position.set(GX, GH / 2, GZ); b.add(gar);
+    var RH = 0.44, OV = 0.08;
+    var groof = gableRoof(GW + 2 * OV, RH, GD + 2 * OV, 0x1a0b40, 0xb769d3); groof.position.set(GX, GH, GZ); b.add(groof);
+    /* pannenlatten: lijnen evenwijdig aan de nok op beide dakvlakken */
+    var latten = [], lk, lz0 = GZ - GD / 2 - OV, lz1 = GZ + GD / 2 + OV;
+    for (lk = 1; lk <= 3; lk++) {
+      var f = lk / 4, lx = (GW / 2 + OV) * (1 - f), ly = GH + RH * f + 0.004;
+      latten.push(new T.Vector3(GX - lx, ly, lz0), new T.Vector3(GX - lx, ly, lz1), new T.Vector3(GX + lx, ly, lz0), new T.Vector3(GX + lx, ly, lz1));
+    }
+    b.add(new T.LineSegments(new T.BufferGeometry().setFromPoints(latten),
+      new T.LineBasicMaterial({ color: 0xb769d3, transparent: true, opacity: 0.45 })));
+    var poort = glowPlane(1.04, 0.7, 0xd6a5e9, 0.16); poort.position.set(GX, 0.36, GZ + GD / 2 + 0.012); b.add(poort);
+    for (lk = 1; lk <= 3; lk++) {
+      var pl = glowPlane(1.0, 0.012, 0xd6a5e9, 0.5); pl.position.set(GX, 0.01 + lk * 0.175, GZ + GD / 2 + 0.016); b.add(pl);
+    }
+    var gutterL = pipe3z(0.03, GD + 2 * OV, GX - GW / 2 - OV, GH - 0.02, GZ); b.add(gutterL);
+    var gutterR = pipe3z(0.03, GD + 2 * OV, GX + GW / 2 + OV, GH - 0.02, GZ); b.add(gutterR);
+    var gdp = pipe3(0.03, GH, GX - GW / 2 - OV + 0.02, GH / 2, GZ + GD / 2 + OV - 0.04); b.add(gdp);
+
+    function pipe3(r, h, x, y, z) {               /* verticale buis met randen */
+      var geo = new T.CylinderGeometry(r, r, h, 10), g = new T.Group();
+      g.add(new T.Mesh(geo, new T.MeshStandardMaterial({ color: 0x1e1048, roughness: 0.8 })));
+      g.add(edges(geo, 0xb769d3, 0.45)); g.position.set(x, y, z); return g;
+    }
+    function pipe3z(r, len, x, y, z) {            /* liggende buis langs z */
+      var g = pipe3(r, len, 0, 0, 0); g.rotation.x = Math.PI / 2; g.position.set(x, y, z); return g;
     }
 
     /* scan volume cage */
-    var cageGeo = new T.BoxGeometry(4.9, 2.9, 3.9);
-    var cage = edges(cageGeo, 0x6b0a93, 0.16); cage.position.y = 1.35; world.add(cage);
+    var cageGeo = new T.BoxGeometry(5.4, 2.6, 3.3);
+    var cage = edges(cageGeo, 0x6b0a93, 0.16); cage.position.set(-0.4, 1.3, 0); world.add(cage);
 
     /* sweeping scan plane */
-    var scan = glowPlane(4.9, 3.9, 0x5342d7, 0.16); scan.rotation.x = -Math.PI / 2; world.add(scan);
-    var scanEdge = edges(new T.BoxGeometry(4.9, 0.001, 3.9), 0xd6a5e9, 0.55); world.add(scanEdge);
+    var scan = glowPlane(5.4, 3.3, 0x5342d7, 0.16); scan.rotation.x = -Math.PI / 2; scan.position.x = -0.4; world.add(scan);
+    var scanEdge = edges(new T.BoxGeometry(5.4, 0.001, 3.3), 0xd6a5e9, 0.55); scanEdge.position.x = -0.4; world.add(scanEdge);
 
-    /* aandachtspunten */
+    /* aandachtspunten: genummerd, met een label zoals in het inspectierapport */
     var pts = [
-      { p: new T.Vector3(0.95, 1.72, -0.6), n: new T.Vector3(0, 1, 0), t: 'Dakdoorvoer' },
-      { p: new T.Vector3(-1.35, 0.78, 1.3), n: new T.Vector3(0, 0.25, 1).normalize(), t: 'Gevelzone' },
-      { p: new T.Vector3(-2.3, 1.12, 0.5), n: new T.Vector3(-0.35, 1, 0).normalize(), t: 'Dakrand annex' }
+      { p: new T.Vector3(DRX, HH + 0.05, DRZ), n: new T.Vector3(0, 1, 0), t: 'Afvoer dakrand', o: [0.35, 0.62, 0.25] },
+      { p: new T.Vector3(HX - 0.25, HH + 0.2, HZ - 0.3), n: new T.Vector3(0, 1, 0), t: 'Zonnepanelen', o: [0, 0.72, -0.1] },
+      { p: new T.Vector3(CRX, 1.12, CRZ + 0.02), n: new T.Vector3(0, 0.2, 1).normalize(), t: 'Scheur voorgevel', o: [-0.15, -0.55, 0.75] },
+      { p: new T.Vector3(GX - 0.2, GH + 0.3, GZ + GD / 2 + OV), n: new T.Vector3(0, 0.6, 1).normalize(), t: 'Dakgoot garage', o: [0.15, 0.82, 0.45] }
     ];
-    var nodes = pts.map(function (o) {
+    function label(nr, tekst) {                  /* canvas-label als sprite */
+      var c = document.createElement('canvas'); c.width = 512; c.height = 128;
+      var x = c.getContext('2d');
+      x.font = '600 44px "Inter Tight", Inter, system-ui, sans-serif';
+      var tw = Math.min(360, x.measureText(tekst).width), W = 128 + tw + 34, H = 96, X0 = (512 - W) / 2, Y0 = 16, R = 26;
+      x.beginPath();
+      x.moveTo(X0 + R, Y0); x.arcTo(X0 + W, Y0, X0 + W, Y0 + H, R); x.arcTo(X0 + W, Y0 + H, X0, Y0 + H, R);
+      x.arcTo(X0, Y0 + H, X0, Y0, R); x.arcTo(X0, Y0, X0 + W, Y0, R); x.closePath();
+      x.fillStyle = 'rgba(22,12,48,0.92)'; x.fill();
+      x.lineWidth = 3; x.strokeStyle = 'rgba(196,140,236,0.55)'; x.stroke();
+      var gr = x.createLinearGradient(X0 + 14, 0, X0 + 82, 0);
+      gr.addColorStop(0, '#610085'); gr.addColorStop(1, '#140792');
+      x.beginPath(); x.arc(X0 + 14 + 34, Y0 + H / 2, 34, 0, Math.PI * 2); x.fillStyle = gr; x.fill();
+      x.fillStyle = '#fff'; x.font = '600 30px "JetBrains Mono", ui-monospace, monospace'; x.textAlign = 'center'; x.textBaseline = 'middle';
+      x.fillText(nr, X0 + 48, Y0 + H / 2 + 1);
+      x.textAlign = 'left'; x.font = '600 44px "Inter Tight", Inter, system-ui, sans-serif';
+      x.fillText(tekst, X0 + 104, Y0 + H / 2 + 2, 360);
+      var tex = new T.CanvasTexture(c); tex.anisotropy = 4;
+      var sp = new T.Sprite(new T.SpriteMaterial({ map: tex, transparent: true, depthWrite: false }));
+      sp.scale.set(1.2, 0.3, 1);
+      return sp;
+    }
+    var nodes = pts.map(function (o, i) {
       var g = new T.Group(); g.position.copy(o.p);
-      var core = new T.Mesh(new T.SphereGeometry(0.055, 16, 16), new T.MeshBasicMaterial({ color: 0xf1e4fb }));
-      var halo = new T.Mesh(new T.SphereGeometry(0.11, 16, 16), new T.MeshBasicMaterial({ color: 0x962fbc, transparent: true, opacity: 0.28, blending: T.AdditiveBlending, depthWrite: false }));
-      var ring = new T.Mesh(new T.RingGeometry(0.15, 0.175, 40), new T.MeshBasicMaterial({ color: 0xb769d3, transparent: true, opacity: 0.6, side: T.DoubleSide, blending: T.AdditiveBlending, depthWrite: false }));
-      var beam = glowPlane(0.012, 1.2, 0xb769d3, 0.18); beam.position.y = -0.6;
-      g.add(core, halo, ring, beam);
-      g.userData = { halo: halo, ring: ring, core: core, on: 0 };
+      var core = new T.Mesh(new T.SphereGeometry(0.05, 16, 16), new T.MeshBasicMaterial({ color: 0xf1e4fb }));
+      var halo = new T.Mesh(new T.SphereGeometry(0.1, 16, 16), new T.MeshBasicMaterial({ color: 0x962fbc, transparent: true, opacity: 0.3, blending: T.AdditiveBlending, depthWrite: false }));
+      var ring = new T.Mesh(new T.RingGeometry(0.13, 0.155, 40), new T.MeshBasicMaterial({ color: 0xb769d3, transparent: true, opacity: 0.6, side: T.DoubleSide, blending: T.AdditiveBlending, depthWrite: false }));
+      /* label vrij naast het punt (o = verschuiving), met een dunne lijn ernaartoe */
+      var off = new T.Vector3(o.o[0], o.o[1], o.o[2]);
+      var beam = new T.Line(new T.BufferGeometry().setFromPoints([off.clone().multiplyScalar(0.12), off.clone().multiplyScalar(0.9)]),
+        new T.LineBasicMaterial({ color: 0xd6a5e9, transparent: true, opacity: 0.6 }));
+      var lab = label('0' + (i + 1), o.t); lab.position.copy(off);
+      g.add(core, halo, ring, beam, lab);
+      g.userData = { halo: halo, ring: ring, core: core, beam: beam, lab: lab, on: 0 };
       b.add(g);
       return g;
     });
@@ -243,8 +318,14 @@ window.PL3D = (function () {
       dr.rotation.z = Math.sin(t * 0.8) * 0.05;
       dr.userData.rotors.forEach(function (r, i) { r.rotation.z += 0.9 * (i % 2 ? 1 : -1); });
 
+      /* labels leesbaar houden op kleine schermen: groter naarmate het canvas smaller is */
+      var lk = Math.max(1, Math.min(1.6, 760 / Math.max(1, rect.w)));
+      /* smal (bijna vierkant) canvas: camera iets verder, zodat garage en labels in beeld blijven */
+      var ver = rect.w / Math.max(1, rect.h) < 1.25 ? 1.2 : 1;
+      camera.position.set(7.4 * ver, 5.0 * ver, 8.6 * ver); camera.lookAt(-0.4, 0.75, 0);
       /* nodes pulse + hover state */
       nodes.forEach(function (n, i) {
+        if (n.userData.lab) n.userData.lab.scale.set(1.2 * lk, 0.3 * lk, 1);
         var hot = markerEls[i] && markerEls[i].classList.contains('on') ? 1 : 0;
         n.userData.on += (hot - n.userData.on) * 0.12;
         var pulse = 1 + Math.sin(t * 2.2 + i * 1.7) * 0.12 + n.userData.on * 0.5;

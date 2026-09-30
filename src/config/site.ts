@@ -74,13 +74,13 @@ export const services = [
     id: "d1",
     name: "Visuele dak- en gevelinspecties",
     description:
-      "Veilige, gedetailleerde inspectie van de volledige gebouwschil zonder stellingen of hoogtewerkers, inclusief technisch inspectierapport (PDF) met genummerde aandachtspunten.",
+      "Dak- en geveldelen gedetailleerd in beeld, ook waar ze vanaf de grond moeilijk te beoordelen zijn, met een visueel inspectierapport (PDF) met genummerde aandachtspunten.",
   },
   {
     id: "d2",
     name: "Periodieke werfopvolging",
     description:
-      "Nulmeting en periodieke opnames vanuit identieke GPS-standpunten: een objectieve visuele tijdlijn van voortgang, planning en werflogistiek.",
+      "Nulmeting en beelden op vaste momenten volgens hetzelfde ingestelde vliegpatroon: een overzichtelijke visuele tijdlijn van de bouwfases.",
   },
   {
     id: "d3",
